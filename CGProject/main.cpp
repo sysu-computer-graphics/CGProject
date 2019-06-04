@@ -8,9 +8,6 @@ int main()
 {
 	/******************************** Initializations ************************************/
 	Controler::getInstance()->init(800, 800);
-	Controler::initImGui(Controler::getInstance()->window);
-
-	BezierCurve::getInstance();
 	glEnable(GL_DEPTH_TEST);	// configure global opengl state, enable depth test
 	bool show_demo_window = false;
 
@@ -18,10 +15,14 @@ int main()
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
 		Controler::processInput(Controler::getInstance()->window);
 
+		/* ImGui´°¿ÚÄÚÈÝ */
 		Controler::startImGui();
-		// Demo Window
-		if (show_demo_window) ImGui::ShowDemoWindow();
-		ImGui::Checkbox("Demo Window", &show_demo_window);
+		{
+			// Demo Window
+			if (show_demo_window) ImGui::ShowDemoWindow();
+			ImGui::Checkbox("Demo Window", &show_demo_window);
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		}
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
@@ -34,6 +35,5 @@ int main()
 		glfwPollEvents();
 	}
 
-	Controler::freeImGui();
 	return 0;
 }

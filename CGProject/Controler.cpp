@@ -22,6 +22,8 @@ Controler::~Controler()
 		delete instance;
 		instance = nullptr;
 	}
+
+	Controler::freeImGui();
 }
 
 Controler * Controler::getInstance()
@@ -32,6 +34,12 @@ Controler * Controler::getInstance()
 	return instance;
 }
 
+/**
+ * 初始化GLFW, glad, ImGui, 编译shader, 以及注册各种回调函数
+ * @param scr_width 窗口宽度
+ * @param scr_height 窗口高度
+ * @return if success, true will be returned
+ */
 bool Controler::init(const int scr_width, const int scr_height)
 {
 	this->scr_width = scr_width;
@@ -66,16 +74,27 @@ bool Controler::init(const int scr_width, const int scr_height)
 		return false;
 	}
 
+	// 注册各种回调函数
 	glfwSetFramebufferSizeCallback(this->window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(this->window, mouse_callback);
 	glfwSetScrollCallback(this->window, scroll_callback);
 	glfwSetMouseButtonCallback(this->window, mouse_button_callback);
 	glfwSetKeyCallback(this->window, key_callback);
 
+	// 编译shader
 	this->ourShader = new Shader("GLSL/shader.vs", "GLSL/shader.fs");
+
+	// 初始化ImGui
+	Controler::initImGui(Controler::getInstance()->window);
+
 	return true;
 }
 
+/**
+ * 初始化ImGui
+ * @param t_window GLFWwindow
+ * @return void
+ */
 void Controler::initImGui(GLFWwindow * t_window)
 {
 	const char* glsl_version = "#version 130";
