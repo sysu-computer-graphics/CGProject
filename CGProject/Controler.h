@@ -28,12 +28,19 @@ public:
 	GLFWwindow* window;
 	Shader *ourShader;
 
+	static Camera camera;
+	// timing
+	static float deltaTime; // time between current frame and last frame
+	static float lastFrame;
+
 	// Singleton
 	static Controler* getInstance();
 	// 初始化GLFW
 	bool init(const int scr_width, const int scr_height);
 	const unsigned int getScrWidth() const { return this->scr_width; };
 	const unsigned int getScrHeight() const { return this->scr_height; };
+
+	static void resetCamera();
 
 	/************************* ImGui *************************/
 	// 初始化ImGui
@@ -72,5 +79,9 @@ private:
 
 	static Controler* instance;
 
+	// camera
+	static float lastX;
+	static float lastY;
+	static bool firstMouse;
 };
 

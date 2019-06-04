@@ -24,7 +24,6 @@ BezierCurve * BezierCurve::getInstance()
 void BezierCurve::render()
 {
 	Controler::getInstance()->ourShader->use();
-	Controler::getInstance()->ourShader->setInt("flag", 0);
 
 	// »­³ö¿ØÖÆµã
 	for (auto it : this->ctrlPoints) {

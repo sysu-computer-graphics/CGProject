@@ -13,6 +13,11 @@ int main()
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
+		/* 确保摄像机在所有硬件上移动速度都一样 https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
+		float currentFrame = (float)glfwGetTime();
+		Controler::deltaTime = currentFrame - Controler::lastFrame;
+		Controler::lastFrame = currentFrame;
+
 		Controler::processInput(Controler::getInstance()->window);
 
 		/* ImGui窗口内容 */
