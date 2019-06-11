@@ -10,7 +10,7 @@ int main()
 	Controler::getInstance()->init(800, 800);
 	glEnable(GL_DEPTH_TEST);	// configure global opengl state, enable depth test
 	bool show_demo_window = false;
-	
+	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//display cursor
 	//skybox
 	SkyBox skybox("envmap_miramar");
 
