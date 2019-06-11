@@ -26,7 +26,6 @@ class Controler
 {
 public:
 	GLFWwindow* window;
-	Shader *ourShader;
 
 	static Camera camera;
 	// timing

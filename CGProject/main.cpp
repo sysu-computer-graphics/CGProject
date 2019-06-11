@@ -3,6 +3,7 @@
 #endif
 
 #include "SkyBox.h"
+#include "ModelLoadingExample.h"
 
 int main()
 {
@@ -10,9 +11,12 @@ int main()
 	Controler::getInstance()->init(800, 800);
 	glEnable(GL_DEPTH_TEST);	// configure global opengl state, enable depth test
 	bool show_demo_window = false;
-	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//display cursor
-	//skybox
+
+	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // display cursor
+	// skybox
 	SkyBox skybox("envmap_miramar");
+	// An example of model loading and rendering
+	ModelLoadingExample modelLoadingExample("resources/model/nanosuit/nanosuit.obj");
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -35,9 +39,14 @@ int main()
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-		/***************************skybox render **********************************/
+		/*************************** skybox render **********************************/
 		glDepthFunc(GL_LEQUAL);
 		skybox.render(Controler::getInstance()->camera);
+
+		/*************************** model render **********************************/
+		modelLoadingExample.render();
+
+		/*************************** ImGui render **********************************/
 		Controler::renderImGui();
 
 		glfwSwapBuffers(Controler::getInstance()->window);

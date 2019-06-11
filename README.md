@@ -1,6 +1,69 @@
 # CGProject
 
 > A computer graphics project
+>
+> 所用库版本列表：
+>
+> * ImGui v1.68
+> * glm-0.9.9.5
+> * assimp-4.1.0
+
+
+
+## 模型导入 by wuzht
+
+> ⚠️ Assimp 已经配置好，无需再配置。[这里](./配置Assimp.md) 总结了配置方法。
+>
+> ⚠️ 运行前要复制一个 dll 文件，请阅读 [运行方法](#运行方法)
+
+### 文件变动
+
+* 新增类
+
+  * `Mesh` 类，被 `Model` 类调用。
+
+    通过使用 Assimp，我们可以加载不同的模型到程序中，但是载入后它们都被储存为 Assimp 的数据结构。使用 `Mesh` 类可以将这些数据转换为 OpenGL 能够理解的格式。
+
+  * `Model` 类
+
+    使用 Assimp 来加载模型，并将它转换 (Translate) 至多个 `Mesh` 对象，得到完整的 `Model` 对象。
+
+    使用 IDE 的 Debug 模式下加载模型会非常缓慢，所以在你遇到缓慢的加载速度时，可以试试使用Release 模式。
+
+  * `ModelLoadingExample` 类
+
+    演示 `Model` 类该如何使用
+
+* 新增文件夹 `resources/model`，模型资源都放在这里
+
+* 修改了 `main.cpp`，使用了 `ModelLoadingExample` 类渲染了一个模型。
+
+### Model 类的使用
+
+> 请参考 `ModelLoadingExample` 类来使用。
+
+为模型编译好着色器，并加载模型：
+
+```c++
+// build and compile shaders for the model
+Shader shader("model_loading.vs", "model_loading.fs");
+// load model
+Model model("resources/model/nanosuit/nanosuit.obj");
+```
+
+在渲染循环中：
+
+```c++
+// enable shader before setting uniforms
+shader.use();
+
+// TODO: set the view, projection and model matrices
+
+// render the loaded model
+model.draw(shader);
+```
+
+---
 
 
 
@@ -8,7 +71,7 @@
 
 #### 文件变动：
 
-- 新增文件夹`resourse`
+- 新增文件夹`resources`
 
   资源文件夹，目前只有skybox，已经预备了四个天空盒来使用，之后的模型资源都可以放到这个文件夹中。
 
@@ -71,7 +134,11 @@
 
    ![1](assets/1.png)
 
-4. 运行
+4. 将 `Libs` 文件夹中的 `assimp-vc140-mt.dll` 复制到您 OpenGL 工程中可执行文件的同一目录下，即复制到 `Debug` 文件夹中 (如果您是 Release 模式，则复制到 `Release` 文件夹中)。
+
+   如果这个文件夹不存在 (您刚刚 clone 了本仓库时)，您可以先点击运行项目，然后这个文件夹就出现了，并且会提示您找不到 `assimp-vc140-mt.dll`。
+
+5. 运行
 
 
 

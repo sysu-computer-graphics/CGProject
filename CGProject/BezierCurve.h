@@ -10,6 +10,9 @@ public:
 	static BezierCurve* getInstance();
 
 	void render();
+	void setMouse(double xpos, double ypos);
+	void mouse_button_callback_draw(int button, int action);
+	void key_callback_show_process(int key, int action);
 	
 	bool isDrawing;
 	double mouse_x;
@@ -30,6 +33,7 @@ private:
 	const glm::vec3 orangeColor = glm::vec3(0.9765f, 0.6431f, 0.2510f);
 
 	static BezierCurve* instance;
+	Shader *ourShader;
 	std::vector<glm::vec2> bezierPoints;
 	
 	void drawPoint(const glm::vec2 &point, const float size = 0.03f, glm::vec3 color = glm::vec3(0.5f, 0.53f, 0.56f));

@@ -7,10 +7,17 @@ BezierCurve::BezierCurve()
 	this->mouse_x = 0.0;
 	this->mouse_y = 0.0;
 	this->cur_t = 0.0;
+
+	// ±àÒëshader
+	this->ourShader = new Shader("GLSL/shader.vs", "GLSL/shader.fs");
 }
 
 BezierCurve::~BezierCurve()
 {
+	if (ourShader) {
+		delete ourShader;
+		ourShader = nullptr;
+	}
 }
 
 BezierCurve * BezierCurve::getInstance()
@@ -23,7 +30,7 @@ BezierCurve * BezierCurve::getInstance()
 
 void BezierCurve::render()
 {
-	Controler::getInstance()->ourShader->use();
+	this->ourShader->use();
 
 	// »­³ö¿ØÖÆµã
 	for (auto it : this->ctrlPoints) {
@@ -46,6 +53,44 @@ void BezierCurve::render()
 			this->isDrawing = false;
 			cur_t = 0.0;
 		}
+	}
+}
+
+void BezierCurve::setMouse(double xpos, double ypos)
+{
+	this->mouse_x = xpos;
+	this->mouse_y = ypos;
+}
+
+void BezierCurve::mouse_button_callback_draw(int button, int action)
+{
+	// ÏìÓ¦Êó±ê×óÓÒ¼üµã»÷£¬»æÖÆBezierÇúÏß
+	if (action == GLFW_PRESS && !BezierCurve::getInstance()->isDrawing) {
+		switch (button)
+		{
+		case GLFW_MOUSE_BUTTON_LEFT: {
+			float x = 2.0f * (float)BezierCurve::getInstance()->mouse_x / (float)Controler::getInstance()->getScrWidth() - 1.0f;
+			float y = 1.0f - 2.0f * (float)BezierCurve::getInstance()->mouse_y / (float)Controler::getInstance()->getScrHeight();
+			BezierCurve::getInstance()->ctrlPoints.push_back(glm::vec2(x, y));
+		} break;
+		case GLFW_MOUSE_BUTTON_RIGHT: {
+			if (!BezierCurve::getInstance()->ctrlPoints.empty()) {
+				BezierCurve::getInstance()->ctrlPoints.pop_back();
+			}
+		} break;
+		default: break;
+		}
+	}
+}
+
+void BezierCurve::key_callback_show_process(int key, int action)
+{
+	// ÏìÓ¦¼üÅÌÊäÈë
+	if (action == GLFW_PRESS && key == GLFW_KEY_ENTER) {
+		if (BezierCurve::getInstance()->isDrawing) {
+			BezierCurve::getInstance()->cur_t = 0.0;
+		}
+		BezierCurve::getInstance()->isDrawing = !BezierCurve::getInstance()->isDrawing;
 	}
 }
 

@@ -2,7 +2,7 @@
 
 
 
-SkyBox::SkyBox(string skyName)
+SkyBox::SkyBox(std::string skyName)
 {
 	this->sky = skyName;
 	InitialData();
@@ -91,18 +91,18 @@ void SkyBox::InitialData()
 
 	skyboxShader = new Shader("GLSL/skybox_vertex.vs", "GLSL/skybox_fragement.fs");
 
-	vector<string> vecSkyfaces;
-	vecSkyfaces.push_back("resourse/skybox/" + sky + "/right.tga");
-	vecSkyfaces.push_back("resourse/skybox/" + sky + "/left.tga");
-	vecSkyfaces.push_back("resourse/skybox/" + sky + "/top.tga");
-	vecSkyfaces.push_back("resourse/skybox/" + sky + "/bottom.tga");
-	vecSkyfaces.push_back("resourse/skybox/" + sky + "/back.tga");
-	vecSkyfaces.push_back("resourse/skybox/" + sky + "/front.tga");
+	std::vector<std::string> vecSkyfaces;
+	vecSkyfaces.push_back("resources/skybox/" + sky + "/right.tga");
+	vecSkyfaces.push_back("resources/skybox/" + sky + "/left.tga");
+	vecSkyfaces.push_back("resources/skybox/" + sky + "/top.tga");
+	vecSkyfaces.push_back("resources/skybox/" + sky + "/bottom.tga");
+	vecSkyfaces.push_back("resources/skybox/" + sky + "/back.tga");
+	vecSkyfaces.push_back("resources/skybox/" + sky + "/front.tga");
 	textureCubemap = loadCubemapTexture(vecSkyfaces);
 }
 
 
-GLuint SkyBox::loadCubemapTexture(std::vector<string> vecSkyfaces)
+GLuint SkyBox::loadCubemapTexture(std::vector<std::string> vecSkyfaces)
 {
 	GLuint textureId = 0;
 	glGenTextures(1, &textureId);
@@ -110,7 +110,7 @@ GLuint SkyBox::loadCubemapTexture(std::vector<string> vecSkyfaces)
 	{
 		int width = 0, height = 0, channels = 0;
 
-		for (int i = 0; i < vecSkyfaces.size(); i++)
+		for (int i = 0; i < (int)vecSkyfaces.size(); i++)
 		{
 			auto data = stbi_load(vecSkyfaces[i].c_str(), &width, &height, &channels, 0);
 			if (data)
