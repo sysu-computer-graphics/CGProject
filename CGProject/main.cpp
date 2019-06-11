@@ -2,7 +2,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 
-#include "BezierCurve.h"
+#include "SkyBox.h"
 
 int main()
 {
@@ -10,6 +10,9 @@ int main()
 	Controler::getInstance()->init(800, 800);
 	glEnable(GL_DEPTH_TEST);	// configure global opengl state, enable depth test
 	bool show_demo_window = false;
+	
+	//skybox
+	SkyBox skybox("envmap_miramar");
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -29,11 +32,12 @@ int main()
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		}
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-		/*************************** render **********************************/
-		BezierCurve::getInstance()->render();
+		/***************************skybox render **********************************/
+		glDepthFunc(GL_LEQUAL);
+		skybox.render(Controler::getInstance()->camera);
 		Controler::renderImGui();
 
 		glfwSwapBuffers(Controler::getInstance()->window);

@@ -4,6 +4,48 @@
 
 
 
+## 更新天空盒	邵梓硕
+
+### 文件变动：
+
+- 新增文件夹`resourse`
+
+  资源文件夹，目前只有skybox，已经预备了四个天空盒来使用，之后的模型资源都可以放到这个文件夹中。
+
+- 新增类
+
+  SkyBox.h：天空盒头文件。
+
+  SkyBox.cpp：天空盒源文件。
+
+- 修改
+
+  修改main文件，加入天空盒操作，去除了贝塞尔曲线部分。
+
+### 天空盒的使用
+
+**使用天空盒最好在之前隐藏鼠标，这样比较好观赏，我没有写，大家可以后来添上。有的天空盒会有比较明显的立方体边界或者底部根本没有图片，因此摄像机的仰角俯角最好限制在一定角度之间，这部分交给Camera Roaming的同学。**
+
+1. 在main.cpp文件中include天空盒头文件。
+
+2. 初始化天空盒，确定要使用哪个天空盒：
+
+   ``` c++
+   //skybox, 这里使用的是envmap_miramar天空盒
+   SkyBox skybox("envmap_miramar");
+   ```
+
+3. 在主循环中调用skybox.render()函数，参数是摄像机：
+
+   ``` c++
+   //注意这步不能缺
+   glDepthFunc(GL_LEQUAL);
+   //render
+   skybox.render(Controler::getInstance()->camera);
+   ```
+
+---
+
 ## 运行方法
 
 > 运行前，请确认已安装：
