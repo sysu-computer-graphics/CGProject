@@ -1,6 +1,6 @@
 #include "ModelLoadingExample.h"
 
-ModelLoadingExample::ModelLoadingExample(const std::string const & path)
+ModelLoadingExample::ModelLoadingExample(const std::string & path)
 {
 	this->shader = new Shader("GLSL/model_loading.vs", "GLSL/model_loading.fs");
 	this->model = new Model(path);

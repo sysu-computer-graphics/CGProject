@@ -5,7 +5,7 @@
 class ModelLoadingExample
 {
 public:
-	ModelLoadingExample(const std::string const &path);
+	ModelLoadingExample(const std::string &path);
 	~ModelLoadingExample();
 
 	void render();

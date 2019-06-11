@@ -2,11 +2,21 @@
 
 > A computer graphics project
 >
-> 所用库版本列表：
+> 所用库版本清单：
 >
 > * ImGui v1.68
 > * glm-0.9.9.5
 > * assimp-4.1.0
+>
+> resources 文件夹清单 (运行前创建 resources 文件夹并放入下面文件)：
+>
+> * model
+>   * nanosuit
+> * skybox
+>   * ame_cotton
+>   * ely_sunset
+>   * envmap_miramar
+>   * mp_vod
 
 
 
