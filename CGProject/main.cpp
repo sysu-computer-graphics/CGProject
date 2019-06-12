@@ -4,19 +4,37 @@
 
 #include "SkyBox.h"
 #include "ModelLoadingExample.h"
+#include "CGModel.h"
 
 int main()
 {
 	/******************************** Initializations ************************************/
-	Controler::getInstance()->init(800, 800);
+	Controler::getInstance()->init(1200, 800);
 	glEnable(GL_DEPTH_TEST);	// configure global opengl state, enable depth test
 	bool show_demo_window = false;
 
-	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // display cursor
+	// display cursor
+	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 	// skybox
 	SkyBox skybox("envmap_miramar");
-	// An example of model loading and rendering
-	ModelLoadingExample modelLoadingExample("resources/model/nanosuit/nanosuit.obj");
+
+	// AK12, a rifle with hands
+	CGModel ak12("resources/model/AK12/sf2arms.obj", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.2f, -5.5f, 6.2f));
+	model = glm::rotate(model, glm::radians(190.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+	ak12.setModelMatrix(model);
+	glm::mat4 ak12ViewMatrix = Controler::getInstance()->camera.getViewMatrix();
+
+	// nanosuit
+	CGModel nanosuit("resources/model/nanosuit/nanosuit.obj", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+	nanosuit.setModelMatrix(model);
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -39,12 +57,17 @@ int main()
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
+		// view/projection transformations
+		glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);
+		glm::mat4 view = Controler::camera.getViewMatrix();
+
 		/*************************** skybox render **********************************/
 		glDepthFunc(GL_LEQUAL);
 		skybox.render(Controler::getInstance()->camera);
 
 		/*************************** model render **********************************/
-		modelLoadingExample.render();
+		nanosuit.render(projection, view);
+		ak12.render(projection, ak12ViewMatrix);
 
 		/*************************** ImGui render **********************************/
 		Controler::renderImGui();

@@ -8,15 +8,6 @@
 > * glm-0.9.9.5
 > * assimp-4.1.0
 >
-> resources 文件夹清单 (运行前创建 resources 文件夹并放入下面文件)：
->
-> * model
->   * nanosuit
-> * skybox
->   * ame_cotton
->   * ely_sunset
->   * envmap_miramar
->   * mp_vod
 
 
 
@@ -28,7 +19,9 @@
 
 ### 文件变动
 
-* 新增类
+* 添加了 `CG_stb_image.h` ，当您想使用 `stb_image.h`，就 `#include "CG_stb_image.h"`，解决 `stb_image.h` 重复包含的问题。
+
+* 类
 
   * `Mesh` 类，被 `Model` 类调用。
 
@@ -40,9 +33,15 @@
 
     使用 IDE 的 Debug 模式下加载模型会非常缓慢，所以在你遇到缓慢的加载速度时，可以试试使用Release 模式。
 
-  * `ModelLoadingExample` 类
+  * `CGModel` 类，继承 `Model` 类
 
-    演示 `Model` 类该如何使用
+    `CGModel` 类构造函数的参数列表是 模型路径、vertex shader 路径、fragment shader 路径。
+    
+    ⚠️ 创建一个`CGModel` 对象后，要通过 `setModelMatrix` 函数设置好模型的 `model` 矩阵 (自己调参)
+    
+    `render` 函数在渲染循环里调用，参数是 `projection`、`view` 矩阵
+
+* 删除了无用的类
 
 * 新增文件夹 `resources/model`，模型资源都放在这里
 
@@ -50,7 +49,7 @@
 
 ### Model 类的使用
 
-> 请参考 `ModelLoadingExample` 类来使用。
+> 当您想添加模型时，请使用 `CGModel` 类，不要使用 `Model` 类
 
 为模型编译好着色器，并加载模型：
 
@@ -158,11 +157,11 @@ model.draw(shader);
 
 * `Includes`
 
-  存放 `GLFW, glad, glm, KHR, std_image.h` 等文件
+  存放 `GLFW, glad, glm, KHR, std_image.h, assimp` 等文件
 
 * `Libs`
 
-  存放 `glfw3.lib`
+  存放 `glfw3.lib, assimp-vc140-mt.lib, assimp-vc140-mt.dll`
 
 * `ImGui`
 
@@ -171,6 +170,11 @@ model.draw(shader);
 * `GLSL`
 
   存放着色器代码
+  
+* `resources`
+
+  * `model` 存放模型
+  * `skybox` 存放天空盒
 
 文件
 

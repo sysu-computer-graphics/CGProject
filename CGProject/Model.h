@@ -15,7 +15,7 @@
 #include <map>
 #include <vector>
 
-#include "Controler.h"
+#include "CG_stb_image.h"
 #include "Mesh.h"
 #include "Shader.h"
 

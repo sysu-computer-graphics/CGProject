@@ -12,7 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <stb_image.h>
+#include "CG_stb_image.h"
 
 #include <iostream>
 #include <vector>
@@ -20,6 +20,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "BezierCurve.h"
+#include "ModelLoadingExample.h"
 
 
 class Controler
