@@ -28,7 +28,7 @@ public:
 	void processMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 	// Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
 	void processMouseScroll(float yoffset);
-
+	glm::vec3 getFrontVec();
 private:
 	// Default camera values
 	static const float YAW;

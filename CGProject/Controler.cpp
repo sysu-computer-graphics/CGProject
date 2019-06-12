@@ -1,5 +1,7 @@
 #include "Controler.h"
 
+#include "Player.h"
+
 // ��̬����
 Controler* Controler::instance = nullptr;
 
@@ -142,11 +144,16 @@ void Controler::processInput(GLFWwindow * window)
 	// ��esc�����رմ���
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
 
+	Player * player = Player::getInstance();
 	// ���� W S A D ��������ƶ�
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::RIGHT, deltaTime);
+	// Controler::camera.processKeyBoard(Camera::FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) player->onKeyDown(Camera::FORWARD, deltaTime);
+	// Controler::camera.processKeyBoard(Camera::BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
+	// Controler::camera.processKeyBoard(Camera::LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
+	// Controler::camera.processKeyBoard(Camera::RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
 
 	// ����ctrl�����������
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) Controler::resetCamera();
@@ -171,7 +178,8 @@ void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 	float yoffset = lastY - (float)ypos; // reversed since y-coordinates go from bottom to top
 	Controler::lastX = (float)xpos;
 	Controler::lastY = (float)ypos;
-	camera.processMouseMovement(xoffset, yoffset);
+	// update player's Perspective (expressed as player's body rotate & camera's dir)
+	Player::getInstance()->onMouseMove(xoffset, yoffset);
 }
 
 void Controler::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)

@@ -20,7 +20,8 @@ int main()
 	// skybox
 	SkyBox skybox("envmap_miramar");
 	// An example of model loading and rendering
-	Player player("resources/model/nanosuit/nanosuit.obj");
+	Player *player = Player::getInstance();
+	// Player player("resources/model/nanosuit/nanosuit.obj");
 	// bullet example
 	Bullet bullet;
 
@@ -51,8 +52,7 @@ int main()
 		skybox.render(Controler::getInstance()->camera);
 
 		/*************************** model render **********************************/
-		player.setRotate(radians);
-		player.render();
+		player->render();
 		bullet.render();
 
 		/*************************** ImGui render **********************************/

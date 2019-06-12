@@ -1,11 +1,16 @@
 #include "Player.h"
 
+Player* Player::instance = nullptr;
+
 Player::Player(const std::string const & path)
 {
 	this->shader = new Shader("GLSL/model_loading.vs", "GLSL/model_loading.fs");
 	this->model = new Model(path);
 	this->position = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->radians = 30.0f;
+	this->radians = 0.0f;
+	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
+	this->front = glm::vec3(0.0f, 0.0f, 1.0f);
+	this->right = glm::vec3(-1.0f, 0.0f, 0.0f);
 }
 
 
@@ -18,6 +23,10 @@ Player::~Player()
 	if (model) {
 		delete model;
 		model = nullptr;
+	}
+	if (instance) {
+		delete instance;
+		instance = nullptr;
 	}
 }
 
@@ -45,9 +54,41 @@ void Player::render()
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, this->position);
 	// model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-	model = glm::rotate(model, glm::radians(this->radians), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, this->radians, glm::vec3(0.0f, 1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	this->shader->setMat4("model", model);
 	this->model->draw(*this->shader);
 }
 
+void Player::onMouseMove(float xoffset, float yoffset) {
+	// 更新摄像机
+	Controler::camera.processMouseMovement(xoffset, yoffset);
+	// update front, right vector
+	updatePlayerVectors();
+}
+
+void Player::onKeyDown(const Camera::CameraMovement direction, const float deltaTime) {
+	float velocity = movementSpeed * deltaTime;
+	if (direction == Camera::CameraMovement::FORWARD) position += front * velocity;
+	if (direction == Camera::CameraMovement::BACKWARD) position -= front * velocity;
+	if (direction == Camera::CameraMovement::LEFT) position -= right * velocity;
+	if (direction == Camera::CameraMovement::RIGHT) position += right * velocity;
+	// 摄像机同步进行移动
+	Controler::camera.processKeyBoard(direction, deltaTime);
+}
+
+void Player::updatePlayerVectors() {
+	// 视角变化时更新玩家的朝向
+	glm::vec3 cameraFrontVec = Controler::camera.getFrontVec();
+	glm::vec3 oldFront = glm::vec3(0.0f, 0.0f, 1.0f);
+	this->front = glm::vec3(cameraFrontVec.x, 0.0f, cameraFrontVec.z);
+	this->right = glm::normalize(glm::cross(front, up));
+	// xoffset, yoffset -> rotate radians
+	float radians = glm::angle(this->front, oldFront);
+
+	// glm::vec3 da = glm::normalize(this->front);
+	// glm::vec3 db = glm::normalize(oldFront);
+	// float radians = glm::acos(glm::dot(da, db));
+
+	this->setRotate(0);
+}

@@ -72,10 +72,12 @@ glm::mat4 Camera::getViewMatrix() const
 void Camera::processKeyBoard(const CameraMovement direction, const float deltaTime)
 {
 	float velocity = movementSpeed * deltaTime;
-	if (direction == FORWARD) position += front * velocity;
-	if (direction == BACKWARD) position -= front * velocity;
-	if (direction == LEFT) position -= right * velocity;
-	if (direction == RIGHT) position += right * velocity;
+	glm::vec3 tempFront = glm::vec3(front.x, 0.0f, front.z);
+	glm::vec3 tempRight = glm::normalize(glm::cross(tempFront, worldUp));
+	if (direction == FORWARD) position += tempFront * velocity;
+	if (direction == BACKWARD) position -= tempFront * velocity;
+	if (direction == LEFT) position -= tempRight * velocity;
+	if (direction == RIGHT) position += tempRight * velocity;
 }
 
 void Camera::processMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
@@ -114,4 +116,8 @@ void Camera::updateCameraVectors()
 	// Also re-calculate the Right and Up vector
 	right = glm::normalize(glm::cross(front, worldUp));
 	up = glm::normalize(glm::cross(right, front));
+}
+
+glm::vec3 Camera::getFrontVec() {
+	return front;
 }
