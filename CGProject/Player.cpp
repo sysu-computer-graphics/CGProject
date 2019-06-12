@@ -81,14 +81,18 @@ void Player::updatePlayerVectors() {
 	// 视角变化时更新玩家的朝向
 	glm::vec3 cameraFrontVec = Controler::camera.getFrontVec();
 	glm::vec3 oldFront = glm::vec3(0.0f, 0.0f, 1.0f);
-	this->front = glm::vec3(cameraFrontVec.x, 0.0f, cameraFrontVec.z);
-	this->right = glm::normalize(glm::cross(front, up));
+	this->front = glm::normalize(glm::vec3(cameraFrontVec.x, 0.0f, cameraFrontVec.z));
+	this->right = glm::normalize(glm::cross(this->front, up));
 	// xoffset, yoffset -> rotate radians
-	float radians = glm::angle(this->front, oldFront);
+	glm::vec3 nf = glm::normalize(this->front);
+	glm::vec3 no = glm::normalize(oldFront);
 
-	// glm::vec3 da = glm::normalize(this->front);
-	// glm::vec3 db = glm::normalize(oldFront);
-	// float radians = glm::acos(glm::dot(da, db));
-
-	this->setRotate(0);
+	// 更新玩家模型的角度
+	float radians;
+	if (nf.x < 0) {
+		radians = 6.28f - glm::acos(glm::dot(nf, no));
+	} else {
+		radians = glm::acos(glm::dot(nf, no));
+	}
+	this->setRotate(radians);
 }

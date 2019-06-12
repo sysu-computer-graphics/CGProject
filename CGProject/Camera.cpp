@@ -72,7 +72,7 @@ glm::mat4 Camera::getViewMatrix() const
 void Camera::processKeyBoard(const CameraMovement direction, const float deltaTime)
 {
 	float velocity = movementSpeed * deltaTime;
-	glm::vec3 tempFront = glm::vec3(front.x, 0.0f, front.z);
+	glm::vec3 tempFront = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
 	glm::vec3 tempRight = glm::normalize(glm::cross(tempFront, worldUp));
 	if (direction == FORWARD) position += tempFront * velocity;
 	if (direction == BACKWARD) position -= tempFront * velocity;
