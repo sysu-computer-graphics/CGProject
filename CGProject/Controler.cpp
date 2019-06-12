@@ -1,6 +1,6 @@
 #include "Controler.h"
 
-// ¾²Ì¬±äÁ¿
+// ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½
 Controler* Controler::instance = nullptr;
 
 Camera Controler::camera;
@@ -16,7 +16,7 @@ Controler::Controler()
 
 Controler::~Controler()
 {
-	// µ±äÖÈ¾Ñ­»·½áÊøºóÎÒÃÇÐèÒªÕýÈ·ÊÍ·Å/É¾³ýÖ®Ç°µÄ·ÖÅäµÄËùÓÐ×ÊÔ´
+	// ï¿½ï¿½ï¿½ï¿½È¾Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½È·ï¿½Í·ï¿½/É¾ï¿½ï¿½Ö®Ç°ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	window = nullptr;
@@ -38,9 +38,9 @@ Controler * Controler::getInstance()
 }
 
 /**
- * ³õÊ¼»¯GLFW, glad, ImGui, ±àÒëshader, ÒÔ¼°×¢²á¸÷ÖÖ»Øµ÷º¯Êý
- * @param scr_width ´°¿Ú¿í¶È
- * @param scr_height ´°¿Ú¸ß¶È
+ * ï¿½ï¿½Ê¼ï¿½ï¿½GLFW, glad, ImGui, ï¿½ï¿½ï¿½ï¿½shader, ï¿½Ô¼ï¿½×¢ï¿½ï¿½ï¿½ï¿½Ö»Øµï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param scr_width ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½
+ * @param scr_height ï¿½ï¿½ï¿½Ú¸ß¶ï¿½
  * @return if success, true will be returned
  */
 bool Controler::init(const int scr_width, const int scr_height)
@@ -51,16 +51,16 @@ bool Controler::init(const int scr_width, const int scr_height)
 	Controler::lastY = scr_height / 2.0f;
 	Controler::firstMouse = true;
 
-	glfwInit();	// ³õÊ¼»¯GLFW
+	glfwInit();	// ï¿½ï¿½Ê¼ï¿½ï¿½GLFW
 
-	// ¸æËßGLFWÎÒÃÇÒªÊ¹ÓÃµÄOpenGL°æ±¾ÊÇ3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);	// Ö÷°æ±¾ºÅ(Major)ÉèÎª3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);	// ´Î°æ±¾ºÅ(Minor)ÉèÎª3
+	// ï¿½ï¿½ï¿½ï¿½GLFWï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½Ãµï¿½OpenGLï¿½æ±¾ï¿½ï¿½3.3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);	// ï¿½ï¿½ï¿½æ±¾ï¿½ï¿½(Major)ï¿½ï¿½Îª3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);	// ï¿½Î°æ±¾ï¿½ï¿½(Minor)ï¿½ï¿½Îª3
 
-	// Ã÷È·¸æËßGLFWÎÒÃÇÊ¹ÓÃµÄÊÇºËÐÄÄ£Ê½(Core-profile)
+	// ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½GLFWï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½Çºï¿½ï¿½ï¿½Ä£Ê½(Core-profile)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// ´°¿ÚµÄ¿íºÍ¸ß×÷ÎªËüµÄÇ°Á½¸ö²ÎÊý, µÚÈý¸ö²ÎÊý±íÊ¾Õâ¸ö´°¿ÚµÄÃû³Æ£¨±êÌâ£©
+	// ï¿½ï¿½ï¿½ÚµÄ¿ï¿½ï¿½Í¸ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½â£©
 	this->window = glfwCreateWindow(scr_width, scr_height, "LearnOpenGL", NULL, NULL);
 	if (this->window == NULL) {
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -68,24 +68,24 @@ bool Controler::init(const int scr_width, const int scr_height)
 		return false;
 	}
 
-	// Í¨ÖªGLFW½«ÎÒÃÇ´°¿ÚµÄÉÏÏÂÎÄÉèÖÃÎªµ±Ç°Ïß³ÌµÄÖ÷ÉÏÏÂÎÄ
+	// Í¨ÖªGLFWï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ç°ï¿½ß³Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	glfwMakeContextCurrent(this->window);
 	glfwSwapInterval(1); // Enable vsync
 
-	// ÔÚµ÷ÓÃÈÎºÎOpenGLµÄº¯ÊýÖ®Ç°ÎÒÃÇÐèÒª³õÊ¼»¯GLAD
+	// ï¿½Úµï¿½ï¿½ï¿½ï¿½Îºï¿½OpenGLï¿½Äºï¿½ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê¼ï¿½ï¿½GLAD
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return false;
 	}
 
-	// ×¢²á¸÷ÖÖ»Øµ÷º¯Êý
+	// ×¢ï¿½ï¿½ï¿½ï¿½Ö»Øµï¿½ï¿½ï¿½ï¿½ï¿½
 	glfwSetFramebufferSizeCallback(this->window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(this->window, mouse_callback);
 	glfwSetScrollCallback(this->window, scroll_callback);
 	glfwSetMouseButtonCallback(this->window, mouse_button_callback);
 	glfwSetKeyCallback(this->window, key_callback);
 
-	// ³õÊ¼»¯ImGui
+	// ï¿½ï¿½Ê¼ï¿½ï¿½ImGui
 	Controler::initImGui(Controler::getInstance()->window);
 
 	return true;
@@ -100,7 +100,7 @@ void Controler::resetCamera()
 }
 
 /**
- * ³õÊ¼»¯ImGui
+ * ï¿½ï¿½Ê¼ï¿½ï¿½ImGui
  * @param t_window GLFWwindow
  * @return void
  */
@@ -139,16 +139,16 @@ void Controler::freeImGui()
 
 void Controler::processInput(GLFWwindow * window)
 {
-	// °´esc¼ü£¬¹Ø±Õ´°¿Ú
+	// ï¿½ï¿½escï¿½ï¿½ï¿½ï¿½ï¿½Ø±Õ´ï¿½ï¿½ï¿½
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
 
-	// ¼üÅÌ W S A D ¿ØÖÆÏà»úÒÆ¶¯
+	// ï¿½ï¿½ï¿½ï¿½ W S A D ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::RIGHT, deltaTime);
 
-	// °´×óctrl¼ü£¬ÖØÖÃÏà»ú
+	// ï¿½ï¿½ï¿½ï¿½ctrlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) Controler::resetCamera();
 }
 
@@ -161,9 +161,7 @@ void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int he
 
 void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 {
-	BezierCurve::getInstance()->setMouse(xpos, ypos);
-
-	// Êó±ê¿ØÖÆÏà»úÒÆ¶¯
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 	if (Controler::firstMouse) {
 		Controler::lastX = (float)xpos;
 		Controler::lastY = (float)ypos;
@@ -178,16 +176,16 @@ void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 
 void Controler::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	// Êó±ê¹öÂÖ¸Ä±äÏà»úµÄÊÓÒ°(field of view, fov)
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò°(field of view, fov)
 	camera.processMouseScroll((float)yoffset);
 }
 
 void Controler::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
-	BezierCurve::getInstance()->mouse_button_callback_draw(button, action);
+	// BezierCurve::getInstance()->mouse_button_callback_draw(button, action);
 }
 
 void Controler::key_callback(GLFWwindow * window, int key, int scanmode, int action, int mods)
 {
-	BezierCurve::getInstance()->key_callback_show_process(key, action);
+	// BezierCurve::getInstance()->key_callback_show_process(key, action);
 }

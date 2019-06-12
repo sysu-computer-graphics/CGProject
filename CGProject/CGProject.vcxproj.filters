@@ -19,15 +19,15 @@
     <Filter Include="源文件\ImGui">
       <UniqueIdentifier>{c0ce25d0-688e-4ae4-8af3-24eff2c55c32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Models">
+      <UniqueIdentifier>{ee00eb2a-9330-4d4b-972c-f8bd9364a76e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="BezierCurve.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
@@ -61,19 +61,19 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Models</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Models</Filter>
     </ClCompile>
-    <ClCompile Include="ModelLoadingExample.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>源文件\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>源文件\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BezierCurve.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -110,14 +110,17 @@
     <ClInclude Include="SkyBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>头文件</Filter>
+      <Filter>源文件\Models</Filter>
     </ClInclude>
-    <ClInclude Include="ModelLoadingExample.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Mesh.h">
+      <Filter>源文件\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>源文件\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>源文件\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,6 @@
 
 #include "Shader.h"
 #include "Camera.h"
-#include "BezierCurve.h"
 
 
 class Controler
@@ -34,7 +33,7 @@ public:
 
 	// Singleton
 	static Controler* getInstance();
-	// ³õÊ¼»¯GLFW
+	// ï¿½ï¿½Ê¼ï¿½ï¿½GLFW
 	bool init(const int scr_width, const int scr_height);
 	const unsigned int getScrWidth() const { return this->scr_width; };
 	const unsigned int getScrHeight() const { return this->scr_height; };
@@ -42,13 +41,13 @@ public:
 	static void resetCamera();
 
 	/************************* ImGui *************************/
-	// ³õÊ¼»¯ImGui
+	// ï¿½ï¿½Ê¼ï¿½ï¿½ImGui
 	static void initImGui(GLFWwindow *t_window);
 	// Start the Dear ImGui frame
 	static void startImGui();
-	// äÖÈ¾Ñ­»·Àïµ÷ÓÃ£¬äÖÈ¾ImGui
+	// ï¿½ï¿½È¾Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½È¾ImGui
 	static void renderImGui();
-	// ÊÍ·ÅImGui×ÊÔ´
+	// ï¿½Í·ï¿½ImGuiï¿½ï¿½Ô´
 	static void freeImGui();
 
 	/**************************************************************/
@@ -72,7 +71,7 @@ private:
 	Controler(const Controler &other) = delete;
 	Controler & operator=(const Controler &other) = delete;
 
-	// ´°¿Ú´óÐ¡
+	// ï¿½ï¿½ï¿½Ú´ï¿½Ð¡
 	unsigned int scr_width;
 	unsigned int scr_height;
 

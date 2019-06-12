@@ -3,7 +3,11 @@
 #endif
 
 #include "SkyBox.h"
-#include "ModelLoadingExample.h"
+#include "Player.h"
+#include "Bullet.h"
+
+float rotate[3] = { 0.0f, 1.0f, 0.0f };
+float radians = 0.0f;
 
 int main()
 {
@@ -16,24 +20,27 @@ int main()
 	// skybox
 	SkyBox skybox("envmap_miramar");
 	// An example of model loading and rendering
-	ModelLoadingExample modelLoadingExample("resources/model/nanosuit/nanosuit.obj");
+	Player player("resources/model/nanosuit/nanosuit.obj");
+	// bullet example
+	Bullet bullet;
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
-		/* È·±£ÉãÏñ»úÔÚËùÓÐÓ²¼þÉÏÒÆ¶¯ËÙ¶È¶¼Ò»Ñù https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
+		/* È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½Ù¶È¶ï¿½Ò»ï¿½ï¿½ https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
 		float currentFrame = (float)glfwGetTime();
 		Controler::deltaTime = currentFrame - Controler::lastFrame;
 		Controler::lastFrame = currentFrame;
 
 		Controler::processInput(Controler::getInstance()->window);
 
-		/* ImGui´°¿ÚÄÚÈÝ */
+		/* ImGuiï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 		Controler::startImGui();
 		{
 			// Demo Window
 			if (show_demo_window) ImGui::ShowDemoWindow();
 			ImGui::Checkbox("Demo Window", &show_demo_window);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			ImGui::InputFloat("rotate: ", &radians, 1.0f);
 		}
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
@@ -44,7 +51,9 @@ int main()
 		skybox.render(Controler::getInstance()->camera);
 
 		/*************************** model render **********************************/
-		modelLoadingExample.render();
+		player.setRotate(radians);
+		player.render();
+		bullet.render();
 
 		/*************************** ImGui render **********************************/
 		Controler::renderImGui();
