@@ -3,7 +3,6 @@
 #endif
 
 #include "SkyBox.h"
-#include "ModelLoadingExample.h"
 #include "CGModel.h"
 
 int main()

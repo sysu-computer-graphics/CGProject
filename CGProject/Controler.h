@@ -20,7 +20,6 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "BezierCurve.h"
-#include "ModelLoadingExample.h"
 
 
 class Controler
