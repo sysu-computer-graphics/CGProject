@@ -11,6 +11,26 @@
 
 
 
+## Camera Roaming 李杰泓
+
+- 添加单实例 Player 类，`controller` 监听鼠标、键盘事件分发给 `Player` 而不再是 `Camera`
+- Camera 绑定到 Player 上，通过 `Player` 更新 `Camera` 位置，并且视角转动时改变 
+  Player 自身朝向，与 `Camera` 的 `yaw` 同步
+- Camera yaw 属性添加视角范围限制
+- `WASD` 控制移动时只取 `front` 向量投影到xoz平面的分量，保证高度位置不变 
+- 按住 `left-Ctrl` 支持上帝视角
+- 修复 `.h` 头文件循环include 问题
+
+### 文件变动
+
+- 修改 controller、Camera 等相关文件
+- 删除了一些没用的文件
+- 类
+  - `Player` 类，作为 `Controller` 下单实例存在
+  - `Bullet` 类，用于管理和渲染子弹，目前缺少模型，只是用简单的 cube 展示
+
+
+
 ## 模型导入 by wuzht
 
 > ⚠️ Assimp 已经配置好，无需再配置。[这里](./配置Assimp.md) 总结了配置方法。
