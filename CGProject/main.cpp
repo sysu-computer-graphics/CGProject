@@ -4,6 +4,10 @@
 
 #include "SkyBox.h"
 #include "CGModel.h"
+#include "Player.h"
+#include "Bullet.h"
+
+float radians = 0.0f;
 
 int main()
 {
@@ -18,22 +22,14 @@ int main()
 	// skybox
 	SkyBox skybox("envmap_miramar");
 
-	// AK12, a rifle with hands
-	CGModel ak12("resources/model/AK12/sf2arms.obj", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.2f, -5.5f, 6.2f));
-	model = glm::rotate(model, glm::radians(190.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-	ak12.setModelMatrix(model);
-	glm::mat4 ak12ViewMatrix = Controler::getInstance()->camera.getViewMatrix();
-
 	// nanosuit
 	CGModel nanosuit("resources/model/nanosuit/nanosuit.obj", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	nanosuit.setModelMatrix(model);
+
+	Player *player = Player::getInstance();
+	Bullet bullet;
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -51,6 +47,7 @@ int main()
 			if (show_demo_window) ImGui::ShowDemoWindow();
 			ImGui::Checkbox("Demo Window", &show_demo_window);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			ImGui::InputFloat("rotate: ", &radians, 1.0f);
 		}
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
@@ -66,7 +63,8 @@ int main()
 
 		/*************************** model render **********************************/
 		nanosuit.render(projection, view);
-		ak12.render(projection, ak12ViewMatrix);
+		player->render();
+		bullet.render();
 
 		/*************************** ImGui render **********************************/
 		Controler::renderImGui();

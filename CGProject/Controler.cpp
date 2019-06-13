@@ -1,5 +1,7 @@
 #include "Controler.h"
 
+#include "Player.h"
+
 // 静态变量
 Controler* Controler::instance = nullptr;
 
@@ -142,14 +144,26 @@ void Controler::processInput(GLFWwindow * window)
 	// 按esc键，关闭窗口
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
 
-	// 键盘 W S A D 控制相机移动
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) Controler::camera.processKeyBoard(Camera::RIGHT, deltaTime);
+	if (!Controler::camera.isLock) {
+		Player * player = Player::getInstance();
+		// 键盘 W S A D 控制玩家角色移动
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) player->onKeyDown(Camera::FORWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
+	}
 
-	// 按左ctrl键，重置相机
-	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) Controler::resetCamera();
+	// 按左ctrl键，进入上帝视角
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && !Controler::camera.isLock) {
+		if (!Controler::camera.isLock) {
+			Controler::camera.isLock = true;
+			Player::getInstance()->startCloseUp();
+		}
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_RELEASE && Controler::camera.isLock) {
+		Player::getInstance()->endCloseUp();
+		Controler::camera.isLock = false;
+	}
 }
 
 void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int height)
@@ -161,8 +175,7 @@ void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int he
 
 void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 {
-	BezierCurve::getInstance()->setMouse(xpos, ypos);
-
+	if (Controler::camera.isLock) return;
 	// 鼠标控制相机移动
 	if (Controler::firstMouse) {
 		Controler::lastX = (float)xpos;
@@ -173,7 +186,8 @@ void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 	float yoffset = lastY - (float)ypos; // reversed since y-coordinates go from bottom to top
 	Controler::lastX = (float)xpos;
 	Controler::lastY = (float)ypos;
-	camera.processMouseMovement(xoffset, yoffset);
+	// update player's Perspective (expressed as player's body rotate & camera's dir)
+	Player::getInstance()->onMouseMove(xoffset, yoffset);
 }
 
 void Controler::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
@@ -184,10 +198,10 @@ void Controler::scroll_callback(GLFWwindow * window, double xoffset, double yoff
 
 void Controler::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
-	BezierCurve::getInstance()->mouse_button_callback_draw(button, action);
+	// BezierCurve::getInstance()->mouse_button_callback_draw(button, action);
 }
 
 void Controler::key_callback(GLFWwindow * window, int key, int scanmode, int action, int mods)
 {
-	BezierCurve::getInstance()->key_callback_show_process(key, action);
+	// BezierCurve::getInstance()->key_callback_show_process(key, action);
 }

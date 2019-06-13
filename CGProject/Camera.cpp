@@ -1,9 +1,9 @@
 #include "Camera.h"
 
 // Default camera values
-const float Camera::YAW = -90.0f;
+const float Camera::YAW = 90.0f;
 const float Camera::PITCH = 0.0f;
-const float Camera::SPEED = 2.5f;
+const float Camera::SPEED = 5.0f;
 const float Camera::SENSITIVITY = 0.1f;
 const float Camera::ZOOM = 45.0f;
 
@@ -49,6 +49,28 @@ Camera::~Camera()
 {
 }
 
+void Camera::startCloseUp(glm::vec3 pos) {
+	this->init_position = this->position;
+	this->init_up = this->up;
+	this->init_yaw = yaw;
+	this->init_pitch = pitch;
+
+	// Ìæ»»ÎªÁÙÊ±ÌØÐ´×´Ì¬
+	this->position = this->position + pos;
+	this->yaw = 0.0f;
+	this->pitch = -90.0f;
+
+	updateCameraVectors();
+}
+
+void Camera::endCloseUp() {
+	this->position = this->init_position;
+	this->up = this->init_up;
+	this->yaw = this->init_yaw;
+	this->pitch = this->init_pitch;
+	updateCameraVectors();
+}
+
 void Camera::reset()
 {
 	this->front = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -72,10 +94,12 @@ glm::mat4 Camera::getViewMatrix() const
 void Camera::processKeyBoard(const CameraMovement direction, const float deltaTime)
 {
 	float velocity = movementSpeed * deltaTime;
-	if (direction == FORWARD) position += front * velocity;
-	if (direction == BACKWARD) position -= front * velocity;
-	if (direction == LEFT) position -= right * velocity;
-	if (direction == RIGHT) position += right * velocity;
+	glm::vec3 tempFront = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
+	glm::vec3 tempRight = glm::normalize(glm::cross(tempFront, worldUp));
+	if (direction == FORWARD) position += tempFront * velocity;
+	if (direction == BACKWARD) position -= tempFront * velocity;
+	if (direction == LEFT) position -= tempRight * velocity;
+	if (direction == RIGHT) position += tempRight * velocity;
 }
 
 void Camera::processMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
@@ -89,7 +113,7 @@ void Camera::processMouseMovement(float xoffset, float yoffset, GLboolean constr
 	// Make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (constrainPitch) {
 		if (pitch > 89.0f) pitch = 89.0f;
-		if (pitch < -89.0f) pitch = -89.0f;
+		if (pitch < -45.0f) pitch = -45.0f;
 	}
 
 	// Update Front, Right and Up Vectors using the updated Euler angles
@@ -114,4 +138,8 @@ void Camera::updateCameraVectors()
 	// Also re-calculate the Right and Up vector
 	right = glm::normalize(glm::cross(front, worldUp));
 	up = glm::normalize(glm::cross(right, front));
+}
+
+glm::vec3 Camera::getFrontVec() {
+	return front;
 }

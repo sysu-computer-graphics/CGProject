@@ -10,9 +10,10 @@ class Camera
 {
 public:
 	enum CameraMovement { FORWARD, BACKWARD, LEFT, RIGHT };
-	
+	bool isLock = false;
+
 	// Constructor with vectors
-	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 8.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
+	Camera(glm::vec3 position = glm::vec3(0.0f, 3.2f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
 	// Constructor with scalar values
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
 	~Camera();
@@ -29,6 +30,10 @@ public:
 	// Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
 	void processMouseScroll(float yoffset);
 
+	void startCloseUp(glm::vec3 pos);
+	void endCloseUp();
+
+	glm::vec3 getFrontVec();
 private:
 	// Default camera values
 	static const float YAW;
@@ -60,4 +65,3 @@ private:
 	// Calculates the front vector from the Camera's (updated) Euler Angles
 	void updateCameraVectors();
 };
-
