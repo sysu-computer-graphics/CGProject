@@ -24,7 +24,7 @@
   2. 注释掉场景的加载部分。
   3. 增加目标物体的初始化和加载。
 
-- 修改文件：Controler类
+- 修改文件：`Controler` 类
 
   1. 增加变量：比如光源位置、阴影和光照需要的3个Shader、depthMap等
 
@@ -102,7 +102,7 @@ Target *target = new Target(targetPos);
 target->render(projection, view);
 ```
 
-**注意：**由于render方法中有很多影响全局的gl操作，注意这个render在循环渲染中的位置，改动的话有可能其他素材无法正常加载。
+**注意：** 由于render方法中有很多影响全局的gl操作，注意这个render在循环渲染中的位置，改动的话有可能其他素材无法正常加载。
 
 ---
 
