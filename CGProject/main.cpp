@@ -31,6 +31,15 @@ int main()
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	nanosuit.setModelMatrix(model);
 
+	//scene
+	CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 70.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(0.0f, -70.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));	// it's a bit too big for our scene, so scale it down
+	scene.setModelMatrix(model);
+
 	Player *player = Player::getInstance();
 	Bullet bullet;
 
@@ -65,6 +74,7 @@ int main()
 		skybox.render(Controler::getInstance()->camera);
 
 		/*************************** model render **********************************/
+		scene.render(projection, view);
 		nanosuit.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
