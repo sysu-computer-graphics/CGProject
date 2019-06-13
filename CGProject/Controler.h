@@ -19,7 +19,6 @@
 
 #include "Shader.h"
 #include "Camera.h"
-#include "BezierCurve.h"
 
 
 class Controler

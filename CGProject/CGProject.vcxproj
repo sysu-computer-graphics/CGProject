@@ -121,7 +121,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BezierCurve.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CGModel.cpp" />
@@ -141,7 +140,6 @@
     <ClCompile Include="SkyBox.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BezierCurve.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CGModel.h" />
@@ -162,8 +160,14 @@
     <ClInclude Include="SkyBox.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GLSL\bullet.fs" />
+    <None Include="GLSL\bullet.vs" />
+    <None Include="GLSL\model_loading.fs" />
+    <None Include="GLSL\model_loading.vs" />
     <None Include="GLSL\shader.fs" />
     <None Include="GLSL\shader.vs" />
+    <None Include="GLSL\skybox_fragement.fs" />
+    <None Include="GLSL\skybox_vertex.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
