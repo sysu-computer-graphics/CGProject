@@ -21,14 +21,20 @@
 #include "Camera.h"
 #include "BulletManager.h"
 
-
 class Controler
 {
 public:
 	GLFWwindow* window;
 	BulletManager* bulletManager;
 
+	Shader* simpleDepthShader;
+	Shader* debugDepthQuadShader;
+	Shader* shadowMappingShader;
+
+	GLuint targetTexture, depthMap, depthMapFBO;
+
 	static Camera camera;
+	static glm::vec3 lightPos;
 	// timing
 	static float deltaTime; // time between current frame and last frame
 	static float lastFrame;
@@ -66,6 +72,8 @@ public:
 	// key
 	static void key_callback(GLFWwindow *window, int key, int scanmode, int action, int mods);
 
+	static GLuint loadTexture(std::string path);
+
 private:
 	Controler();
 	~Controler();
@@ -83,5 +91,6 @@ private:
 	static float lastX;
 	static float lastY;
 	static bool firstMouse;
+	void loadDepthMap();
 };
 

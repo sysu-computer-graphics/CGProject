@@ -35,6 +35,56 @@ Controler::~Controler()
 	Controler::freeImGui();
 }
 
+GLuint Controler::loadTexture(std::string path)
+{
+	//纹理
+	unsigned int texture = 0;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	//环绕方式：镜像重复
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	//纹理过滤：缩小时使用最近邻，放大时使用线性方式
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//加载图片
+	int pic_width, pic_height, nrChannels;
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* data = stbi_load(path.c_str(), &pic_width, &pic_height, &nrChannels, 0);
+	//生成纹理
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pic_width, pic_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+	return texture;
+}
+
+void Controler::loadDepthMap()
+{
+	glGenFramebuffers(1, &(this->depthMapFBO));
+	const GLuint SHADOW_WINDTH = 1024, SHADOW_HEIGHT = 1024;
+
+	glGenTextures(1, &(this->depthMap));
+	glBindTexture(GL_TEXTURE_2D, this->depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	//环绕方式：镜像重复
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	//纹理过滤：缩小时使用最近邻，放大时使用线性方式
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, this->depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 Controler * Controler::getInstance()
 {
 	if (instance == nullptr) {
@@ -54,6 +104,7 @@ bool Controler::init(const int scr_width, const int scr_height)
 	this->scr_width = scr_width;
 	this->scr_height = scr_height;
 	this->bulletManager = new BulletManager();
+
 	Controler::lastX = scr_width / 2.0f;
 	Controler::lastY = scr_height / 2.0f;
 	Controler::firstMouse = true;
@@ -94,7 +145,13 @@ bool Controler::init(const int scr_width, const int scr_height)
 
 	// 初始化ImGui
 	Controler::initImGui(Controler::getInstance()->window);
+	
+	this->simpleDepthShader = new Shader("GLSL/SimpleDepthShader.vs", "GLSL/SimpleDepthShader.fs");
+	this->shadowMappingShader = new Shader("GLSL/shadow_mapping.vs", "GLSL/shadow_mapping.fs");
+	this->debugDepthQuadShader = new Shader("GLSL/quad_depth.vs", "GLSL/quad_depth.fs");
 
+	loadDepthMap();
+	
 	return true;
 }
 
