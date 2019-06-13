@@ -8,7 +8,7 @@ class Player
 public:
 	// Player(const std::string const &path);
 	// ~Player();
-	void render();
+	void render(glm::mat4 view);
 	void setPosition(glm::vec3 pos);
 	void setRotate(float radians);
 	void onMouseMove(float xoffset, float yoffset);

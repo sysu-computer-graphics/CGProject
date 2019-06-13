@@ -113,7 +113,7 @@ void Camera::processMouseMovement(float xoffset, float yoffset, GLboolean constr
 	// Make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (constrainPitch) {
 		if (pitch > 89.0f) pitch = 89.0f;
-		if (pitch < -45.0f) pitch = -45.0f;
+		if (pitch < -89.0f) pitch = -89.0f;
 	}
 
 	// Update Front, Right and Up Vectors using the updated Euler angles

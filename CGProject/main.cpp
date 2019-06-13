@@ -22,9 +22,12 @@ int main()
 	// skybox
 	SkyBox skybox("envmap_miramar");
 
+	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 staticViewMat = Controler::getInstance()->camera.getViewMatrix();
+
 	// nanosuit
 	CGModel nanosuit("resources/model/nanosuit/nanosuit.obj", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::mat4(1.0f);
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	nanosuit.setModelMatrix(model);
 
@@ -63,7 +66,9 @@ int main()
 
 		/*************************** model render **********************************/
 		nanosuit.render(projection, view);
-		player->render();
+		if (!Controler::camera.isLock) {
+			player->render(staticViewMat);
+		}
 		bullet.render();
 
 		/*************************** ImGui render **********************************/
