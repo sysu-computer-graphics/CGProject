@@ -19,12 +19,14 @@
 
 #include "Shader.h"
 #include "Camera.h"
+#include "BulletManager.h"
 
 
 class Controler
 {
 public:
 	GLFWwindow* window;
+	BulletManager* bulletManager;
 
 	static Camera camera;
 	// timing

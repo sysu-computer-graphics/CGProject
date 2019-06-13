@@ -10,6 +10,7 @@ public:
 	// ~Player();
 	void render(glm::mat4 view);
 	void setPosition(glm::vec3 pos);
+	glm::vec3 getPosition();
 	void setRotate(float radians);
 	void onMouseMove(float xoffset, float yoffset);
 	void onKeyDown(const Camera::CameraMovement direction, const float deltaTime);

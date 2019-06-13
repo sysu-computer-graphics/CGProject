@@ -27,6 +27,10 @@ Controler::~Controler()
 		delete instance;
 		instance = nullptr;
 	}
+	if (bulletManager) {
+		delete bulletManager;
+		bulletManager = nullptr;
+	}
 
 	Controler::freeImGui();
 }
@@ -49,6 +53,7 @@ bool Controler::init(const int scr_width, const int scr_height)
 {
 	this->scr_width = scr_width;
 	this->scr_height = scr_height;
+	this->bulletManager = new BulletManager();
 	Controler::lastX = scr_width / 2.0f;
 	Controler::lastY = scr_height / 2.0f;
 	Controler::firstMouse = true;
@@ -198,7 +203,18 @@ void Controler::scroll_callback(GLFWwindow * window, double xoffset, double yoff
 
 void Controler::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
-	// BezierCurve::getInstance()->mouse_button_callback_draw(button, action);
+	if (action == GLFW_PRESS) {
+		switch (button)
+		{
+		case GLFW_MOUSE_BUTTON_LEFT:
+			glm::vec3 front = Controler::camera.getFrontVec();
+			glm::vec3 pos = Controler::camera.getPosition();
+			Controler::getInstance()->bulletManager->newBullet(front, pos + front * 2.0f);
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void Controler::key_callback(GLFWwindow * window, int key, int scanmode, int action, int mods)

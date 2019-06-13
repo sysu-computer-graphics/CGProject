@@ -32,7 +32,6 @@ int main()
 	nanosuit.setModelMatrix(model);
 
 	Player *player = Player::getInstance();
-	Bullet bullet;
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -69,7 +68,8 @@ int main()
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}
-		bullet.render();
+
+		Controler::getInstance()->bulletManager->render();
 
 		/*************************** ImGui render **********************************/
 		Controler::renderImGui();

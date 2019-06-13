@@ -34,6 +34,10 @@ void Player::setPosition(glm::vec3 pos) {
 	this->position = pos;
 }
 
+glm::vec3 Player::getPosition() {
+	return this->position;
+}
+
 void Player::setRotate(float radians) {
 	this->radians = radians;
 }

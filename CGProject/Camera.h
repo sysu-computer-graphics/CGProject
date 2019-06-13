@@ -32,7 +32,7 @@ public:
 
 	void startCloseUp(glm::vec3 pos);
 	void endCloseUp();
-
+	glm::vec3 getPosisiotn();
 	glm::vec3 getFrontVec();
 private:
 	// Default camera values
