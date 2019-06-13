@@ -47,14 +47,14 @@ int main()
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
-		/* È·±£ÉãÏñ»úÔÚËùÓĞÓ²¼şÉÏÒÆ¶¯ËÙ¶È¶¼Ò»Ñù https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
+		/* ç¡®ä¿æ‘„åƒæœºåœ¨æ‰€æœ‰ç¡¬ä»¶ä¸Šç§»åŠ¨é€Ÿåº¦éƒ½ä¸€æ · https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
 		float currentFrame = (float)glfwGetTime();
 		Controler::deltaTime = currentFrame - Controler::lastFrame;
 		Controler::lastFrame = currentFrame;
 
 		Controler::processInput(Controler::getInstance()->window);
 
-		/* ImGui´°¿ÚÄÚÈİ */
+		/* ImGuiçª—å£å†…å®¹ */
 		Controler::startImGui();
 		{
 			// Demo Window
