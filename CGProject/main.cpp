@@ -30,19 +30,28 @@ int main()
 	model = glm::mat4(1.0f);
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	nanosuit.setModelMatrix(model);
+	
+	//scene
+	CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	scene.setModelMatrix(model);
 
 	Player *player = Player::getInstance();
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
-		/* È·±£ÉãÏñ»úÔÚËùÓÐÓ²¼þÉÏÒÆ¶¯ËÙ¶È¶¼Ò»Ñù https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
+		/* ç¡®ä¿æ‘„åƒæœºåœ¨æ‰€æœ‰ç¡¬ä»¶ä¸Šç§»åŠ¨é€Ÿåº¦éƒ½ä¸€æ · https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
 		float currentFrame = (float)glfwGetTime();
 		Controler::deltaTime = currentFrame - Controler::lastFrame;
 		Controler::lastFrame = currentFrame;
 
 		Controler::processInput(Controler::getInstance()->window);
 
-		/* ImGui´°¿ÚÄÚÈÝ */
+		/* ImGuiçª—å£å†…å®¹ */
 		Controler::startImGui();
 		{
 			// Demo Window
@@ -65,6 +74,7 @@ int main()
 
 		/*************************** model render **********************************/
 		nanosuit.render(projection, view);
+		scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}
