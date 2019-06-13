@@ -13,6 +13,8 @@ public:
 	void setRotate(float radians);
 	void onMouseMove(float xoffset, float yoffset);
 	void onKeyDown(const Camera::CameraMovement direction, const float deltaTime);
+	void startCloseUp();
+	void endCloseUp();
 	static Player * getInstance()
 	{
 		if (instance == nullptr) {

@@ -49,6 +49,28 @@ Camera::~Camera()
 {
 }
 
+void Camera::startCloseUp(glm::vec3 pos) {
+	this->init_position = this->position;
+	this->init_up = this->up;
+	this->init_yaw = yaw;
+	this->init_pitch = pitch;
+
+	// 替换为临时特写状态
+	this->position = this->position + pos;
+	this->yaw = 0.0f;
+	this->pitch = -90.0f;
+
+	updateCameraVectors();
+}
+
+void Camera::endCloseUp() {
+	this->position = this->init_position;
+	this->up = this->init_up;
+	this->yaw = this->init_yaw;
+	this->pitch = this->init_pitch;
+	updateCameraVectors();
+}
+
 void Camera::reset()
 {
 	this->front = glm::vec3(0.0f, 0.0f, -1.0f);

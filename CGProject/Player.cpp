@@ -96,3 +96,14 @@ void Player::updatePlayerVectors() {
 	}
 	this->setRotate(radians);
 }
+
+void Player::startCloseUp() {
+	// 进入上帝视角
+	// glm::vec3 dir = glm::vec3(front.x, 1.0f, front.z);
+	glm::vec3 dir = glm::vec3(0.0f, 1.0f, 0.0f);
+	Controler::camera.startCloseUp(dir * 10.0f);
+}
+
+void Player::endCloseUp() {
+	Controler::camera.endCloseUp();
+}

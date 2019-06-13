@@ -144,19 +144,25 @@ void Controler::processInput(GLFWwindow * window)
 	// ��esc�����رմ���
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
 
-	Player * player = Player::getInstance();
-	// ���� W S A D ��������ƶ�
-	// Controler::camera.processKeyBoard(Camera::FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) player->onKeyDown(Camera::FORWARD, deltaTime);
-	// Controler::camera.processKeyBoard(Camera::BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
-	// Controler::camera.processKeyBoard(Camera::LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
-	// Controler::camera.processKeyBoard(Camera::RIGHT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
-
+	if (!Controler::camera.isLock) {
+		Player * player = Player::getInstance();
+		// ���� W S A D ��������ƶ�
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) player->onKeyDown(Camera::FORWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
+	}
+	
 	// ����ctrl�����������
-	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) Controler::resetCamera();
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && !Controler::camera.isLock) {
+		if (!Controler::camera.isLock) {
+			Controler::camera.isLock = true;
+			Player::getInstance()->startCloseUp();
+		}
+	} else if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_RELEASE && Controler::camera.isLock ) {
+		Player::getInstance()->endCloseUp();
+		Controler::camera.isLock = false;
+	}
 }
 
 void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int height)
@@ -168,6 +174,7 @@ void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int he
 
 void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 {
+	if (Controler::camera.isLock) return;
 	// ����������ƶ�
 	if (Controler::firstMouse) {
 		Controler::lastX = (float)xpos;
