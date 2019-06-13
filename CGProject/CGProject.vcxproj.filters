@@ -27,9 +27,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="BezierCurve.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -75,11 +72,11 @@
     <ClCompile Include="Player.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BezierCurve.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -134,12 +131,33 @@
     <ClInclude Include="Player.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="BulletManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GLSL\shader.fs">
       <Filter>源文件\GLSL</Filter>
     </None>
     <None Include="GLSL\shader.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\bullet.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\bullet.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\model_loading.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\model_loading.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\skybox_fragement.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\skybox_vertex.vs">
       <Filter>源文件\GLSL</Filter>
     </None>
   </ItemGroup>
