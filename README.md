@@ -9,7 +9,17 @@
 > * assimp-4.1.0
 >
 
+## 射击操作 ljh
 
+- 添加鼠标点击事件监听，左键点击时触发子弹发射
+- 通过 `BulletManager` 维护子弹的生成、渲染、销毁
+- 当子弹离玩家角色超过一定距离时，销毁子弹实例 (目前还没碰撞检测)
+
+### 文件变动
+
+- 类
+  - `BulletManager` 类，挂载在 `Controller` 之下，内部有一个 vector<Bullet> 维护子弹队列
+  - `Bullet` 类，用于管理和渲染子弹，目前缺少模型，只是用简单的 cube 展示
 
 ## Camera Roaming 李杰泓
 
