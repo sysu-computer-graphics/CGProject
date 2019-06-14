@@ -75,6 +75,9 @@
     <ClCompile Include="BulletManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Target.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -132,6 +135,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="BulletManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Target.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

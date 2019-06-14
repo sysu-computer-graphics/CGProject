@@ -9,6 +9,105 @@
 > * assimp-4.1.0
 >
 
+## 单个目标物体（光照、贴图、阴影一条龙）邵梓硕
+
+- 添加了一个目标物体，运用了Phong光照、贴图、阴影，可以自定义很多东西（没有碰撞检测，但返回的位置信息之后应该有用）
+
+### 文件变动
+
+- 新增类
+  - `Target`类，目标物体类
+  - `TargetManager`类：如果要管理多个目标时可以利用这个类，可以参考类似的`BulletManager`类，由于碰到了蜜汁错误，在现在的项目里实际上并没有用到。
+
+- 修改文件：main.cpp
+  1. 去除nanosuit模型的加载部分。
+  2. 注释掉场景的加载部分。
+  3. 增加目标物体的初始化和加载。
+
+- 修改文件：`Controler` 类
+
+  1. 增加变量：比如光源位置、阴影和光照需要的3个Shader、depthMap等
+
+  2. 增加函数：
+
+     loadDepthMap：加载depthMap和depthMapFBO。
+
+     loadTexture：返回加载的贴图ID，传入贴图路径。**这个是static方法，可以在其他类中直接引用**
+
+  3. 修改函数：
+
+     init：增加新增变量的初始化部分。
+
+- 新增文件
+
+  - GLSL
+    - quad_depth.fs
+    - quad_depth.vs
+    - shadow_mapping.fs
+    - shadow_mapping.vs
+    - simpleDepthShader.fs
+    - simpleDepthShader.vs
+
+  - resources
+    - picture
+      - pic.png
+
+### Target类的使用
+
+#### 1. 位置的自定义
+
+在main.cpp中初始化目标物体的位置和目标物体和光源的相对位置，相对位置的设置是为了更适合的阴影效果，二者都可以进行自定义，也可以无视相对位置，直接对光源位置进行初始化：
+
+``` c++
+//target position
+glm::vec3 targetPos = glm::vec3(5.0f, 0.0f, 0.0f);
+//light position relative to target
+glm::vec3 relativePos = glm::vec3(0.0f, 7.0f, -2.0f);
+
+//light position
+glm::vec3 Controler::lightPos = targetPos + relativePos;
+```
+
+#### 2. 贴图的自定义
+
+在Target类的InitialData中进行初始化时：
+
+``` c++
+//可以修改贴图路径
+myTexture = Controler::loadTexture("resources/picture/pic.png");
+```
+
+#### 3. 光照参数的自定义
+
+在Target类的InitialData中进行初始化时：
+
+``` c++
+ambientStrength = 1.0f;
+specularStrength = 1.0f;
+diffuseStrength = 1.0f;
+specN = 32;
+```
+
+#### 4. 实例化加载
+
+Target的初始化：
+
+``` c++
+Target *target = new Target(targetPos);
+```
+
+在渲染循环中：
+
+``` c++
+target->render(projection, view);
+```
+
+**注意：** 由于render方法中有很多影响全局的gl操作，注意这个render在循环渲染中的位置，改动的话有可能其他素材无法正常加载。
+
+---
+
+
+
 ## 射击操作 ljh
 
 - 添加鼠标点击事件监听，左键点击时触发子弹发射
@@ -20,6 +119,10 @@
 - 类
   - `BulletManager` 类，挂载在 `Controller` 之下，内部有一个 vector<Bullet> 维护子弹队列
   - `Bullet` 类，用于管理和渲染子弹，目前缺少模型，只是用简单的 cube 展示
+
+---
+
+
 
 ## Camera Roaming 李杰泓
 
@@ -38,6 +141,8 @@
 - 类
   - `Player` 类，作为 `Controller` 下单实例存在
   - `Bullet` 类，用于管理和渲染子弹，目前缺少模型，只是用简单的 cube 展示
+
+---
 
 
 
