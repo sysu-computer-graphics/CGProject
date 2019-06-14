@@ -10,11 +10,9 @@
 | 李杰泓 | 16340118 |  实现利用鼠标、键盘控制人物移动；实现子弹射击; 显示游戏信息; 子弹击中时的爆炸效果  | [carolsum](https://github.com/carolsum)   |
 
 
-
 ## 摄像机 Camera Roaming
 
 按照 FPS 游戏的方法，使得玩家在场景中的正常移动
-
 
 
 ## 模型加载 Model import & Mesh viewing
@@ -24,12 +22,13 @@
 * 寻找了枪、手、场景、子弹等模型，使用三维模型处理软件 (Blender) 处理模型，并实现加载和渲染
 
 
-
 ## 重力系统 Gravity System
 
 玩家的按空格键模拟重力跳起和下落
 
+## 射击 Shotting
 
+鼠标左键能够沿着摄像机朝向(front)发射子弹；通过 BulletManager 管理子弹的创建、运动、销毁；
 
 ## 天空盒  Sky Box 
 
