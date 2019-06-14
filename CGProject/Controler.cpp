@@ -226,6 +226,10 @@ void Controler::processInput(GLFWwindow * window)
 		Player::getInstance()->endCloseUp();
 		Controler::camera.isLock = false;
 	}
+
+	// 按1键，显示鼠标；按2键，隐藏鼠标
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int height)

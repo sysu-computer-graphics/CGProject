@@ -166,5 +166,29 @@
     <None Include="GLSL\skybox_vertex.vs">
       <Filter>源文件\GLSL</Filter>
     </None>
+    <None Include="GLSL\quad_depth.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\quad_depth.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\shadow_mapping.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\shadow_mapping.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\simpleDepthShader.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\simpleDepthShader.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\bullet_light.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\bullet_light.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>

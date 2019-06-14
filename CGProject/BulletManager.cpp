@@ -14,9 +14,9 @@ void BulletManager::newBullet(glm::vec3 front, glm::vec3 position) {
 	this->bulletLists.push_back(new Bullet(front, position));
 }
 
-void BulletManager::render() {
+void BulletManager::render(Model &bulletModel) {
 	for (int i = 0; i < this->bulletLists.size(); i++) {
-		bulletLists[i]->render();
+		bulletLists[i]->render(bulletModel);
 	}
 }
 

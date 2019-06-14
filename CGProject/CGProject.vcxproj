@@ -166,10 +166,18 @@
   <ItemGroup>
     <None Include="GLSL\bullet.fs" />
     <None Include="GLSL\bullet.vs" />
+    <None Include="GLSL\bullet_light.fs" />
+    <None Include="GLSL\bullet_light.vs" />
     <None Include="GLSL\model_loading.fs" />
     <None Include="GLSL\model_loading.vs" />
+    <None Include="GLSL\quad_depth.fs" />
+    <None Include="GLSL\quad_depth.vs" />
     <None Include="GLSL\shader.fs" />
     <None Include="GLSL\shader.vs" />
+    <None Include="GLSL\shadow_mapping.fs" />
+    <None Include="GLSL\shadow_mapping.vs" />
+    <None Include="GLSL\simpleDepthShader.fs" />
+    <None Include="GLSL\simpleDepthShader.vs" />
     <None Include="GLSL\skybox_fragement.fs" />
     <None Include="GLSL\skybox_vertex.vs" />
   </ItemGroup>
