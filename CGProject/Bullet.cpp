@@ -79,7 +79,7 @@ void Bullet::InitialData()
 
 }
 
-void Bullet::render(Model &bulletModel) {
+void Bullet::render(Model &bulletModel, const glm::vec3 &_lightPos) {
 	// don't forget to enable shader before setting uniforms
 	this->shader->use();
 
@@ -109,9 +109,7 @@ void Bullet::render(Model &bulletModel) {
 	model = glm::rotate(model, glm::radians(Controler::camera.getPitch()), glm::vec3(0.0f, 0.0f, 1.0f));
 	this->shader->setMat4("model", model);
 
-	// 光照设置（TODO: 与其他模型使用相同的光照参数）
-	glm::vec3 lightPos = glm::vec3(1.0f, 0.8f, 2.0f);
-	glm::vec3 viewPos = glm::vec3(-3.0f, -2.0f, 8.0f);
+	// 光照设置
 	float ambientStrength = 0.5f;
 	float diffuseStrength = 1.0f;
 	float specularStrength = 0.8f;
@@ -121,8 +119,8 @@ void Bullet::render(Model &bulletModel) {
 	this->shader->setFloat("specularStrength", specularStrength);
 	this->shader->setInt("shininess", shininess);
 	this->shader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-	this->shader->setVec3("lightPos", lightPos);
-	this->shader->setVec3("viewPos", viewPos);
+	this->shader->setVec3("lightPos", _lightPos);
+	this->shader->setVec3("viewPos", Player::getInstance()->getPosition());
 
 	bulletModel.draw(*this->shader);
 	

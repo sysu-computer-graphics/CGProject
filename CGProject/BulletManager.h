@@ -10,7 +10,7 @@ public:
 	BulletManager();
 	~BulletManager();
 	void newBullet(glm::vec3 front, glm::vec3 position);
-	void render(Model &bulletModel);
+	void render(Model &bulletModel, const glm::vec3 &_lightPos);
 	void deleteBullet(std::string bulletId);
 private:
 	std::vector<Bullet*> bulletLists;
