@@ -7,7 +7,7 @@
 | 邵梓硕 | 16340189 | 天空盒、贴图映射、阴影映射、简单光照、粒子系统         |    [lossatsea](https://github.com/lossatsea)                               |
 | 伍正涛 | 16340246 | 模型寻找、处理、加载，重力系统，碰撞检测 | [wuzht](https://github.com/wuzht) |
 | 沈大伟 | 16340190 | 模型寻找、场景处理，复杂光照处理           | [chain](https://github.com/freesdw)   |
-| 李杰泓 |          |                                          |                                   |
+| 李杰泓 | 16340118 |  实现利用鼠标、键盘控制人物移动；实现子弹射击; 显示游戏信息; 子弹击中时的爆炸效果  | [carolsum](https://github.com/carolsum)   |
 
 
 
