@@ -41,7 +41,7 @@ int main()
 	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 	scene.setModelMatrix(model);
 
-	Model bulletModel("resources/model/bullet_2/scene.gltf");
+	Model bulletModel("resources/model/bullet/scene.gltf");
 	Player *player = Player::getInstance();
 	Target *target = new Target(targetPos);
 
