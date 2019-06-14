@@ -116,13 +116,13 @@ void Target::InitialData()
 	debugDepthQuad = Controler::getInstance()->debugDepthQuadShader;
 	
 	GLfloat planeVertices[] = {
-		2.5f, -0.5f, 2.5f, 0.0f, 1.0f, 0.0f, 2.5f, 0.0f,
-		-2.5f, -0.5f, -2.5f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f,
-		-2.5f, -0.5f, 2.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		5.0f, -0.5f, 5.0f, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
+		-5.0f, -0.5f, -5.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f,
+		-5.0f, -0.5f, 5.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
 
-		2.5f, -0.5f, 2.5f, 0.0f, 1.0f, 0.0f, 2.5f, 0.0f,
-		2.5f, -0.5f, -2.5f, 0.0f, 1.0f, 0.0f, 2.5f, 2.5f,
-		-2.5f, -0.5f, -2.5f, 0.0f, 1.0f, 0.0f, 0.0f, 2.5f
+		5.0f, -0.5f, 5.0f, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
+		5.0f, -0.5f, -5.0f, 0.0f, 1.0f, 0.0f, 5.0f, 5.0f,
+		-5.0f, -0.5f, -5.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f
 	};
 
 	//plane
@@ -142,7 +142,7 @@ void Target::InitialData()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindVertexArray(0);
 
-	myTexture = Controler::loadTexture("resources/picture/pic.png");
+	myTexture = Controler::loadTexture("resources/picture/plane.jpg");
 
 	depthMap = Controler::getInstance()->depthMap;
 	depthMapFBO = Controler::getInstance()->depthMapFBO;
@@ -217,9 +217,9 @@ void Target::InitialData()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	ambientStrength = 1.0f;
-	specularStrength = 1.0f;
-	diffuseStrength = 1.0f;
+	ambientStrength = 0.4f;
+	specularStrength = 0.4f;
+	diffuseStrength = 0.4f;
 	specN = 32;
 
 	this->angle = 0.0f;
