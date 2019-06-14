@@ -64,7 +64,7 @@ void Target::render(glm::mat4 projection, glm::mat4 view)
 	shader->setFloat("ambientStrength", ambientStrength);
 	shader->setFloat("specularStrength", specularStrength);
 	shader->setFloat("diffuseStrength", diffuseStrength);
-	shader->setInt("specN", specN);
+	shader->setFloat("material.shininess", shininess);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, myTexture);
@@ -193,7 +193,7 @@ void Target::InitialData()
 	};
 
 	shader->use();
-	shader->setInt("diffuseTexture", 0);
+	shader->setInt("material.diffuseTexture", 0);
 	shader->setInt("shadowMap", 1);
 	debugDepthQuad->use();
 	debugDepthQuad->setInt("depthMap", 0);
@@ -220,7 +220,7 @@ void Target::InitialData()
 	ambientStrength = 0.4f;
 	specularStrength = 0.4f;
 	diffuseStrength = 0.4f;
-	specN = 32;
+	shininess = 32.0f;
 
 	this->angle = 0.0f;
 }

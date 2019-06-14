@@ -8,8 +8,13 @@ in VS_OUT {
     vec4 FragPosLightSpace;
 } fs_in;
 
-uniform sampler2D diffuseTexture;
+struct Material {
+	sampler2D diffuseTexture;
+	float shininess;
+};
+
 uniform sampler2D shadowMap;
+uniform Material material;
 
 uniform float ambientStrength;
 uniform float specularStrength;
@@ -17,7 +22,6 @@ uniform float diffuseStrength;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
-uniform int specN;
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 lightDir, vec3 norm)
 {
@@ -54,7 +58,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 lightDir, vec3 norm)
 void main()
 {
     //FragColor = vec4(1.0); // set alle 4 vector values to 1.0
-	vec3 color = texture(diffuseTexture, fs_in.TexCoords).rgb;
+	vec3 color = texture(material.diffuseTexture, fs_in.TexCoords).rgb;
 	vec3 norm = normalize(fs_in.Normal);
 
 	vec3 ambient = ambientStrength * lightColor;
@@ -65,7 +69,7 @@ void main()
 
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos); 
 	vec3 halfwayDir = normalize(lightDir + viewDir);  
-	float spec = pow(max(dot(norm, halfwayDir), 0.0), specN);
+	float spec = pow(max(dot(norm, halfwayDir), 0.0), material.shininess);
 	vec3 specular = specularStrength * spec * lightColor;  
 
 	//“ı”∞

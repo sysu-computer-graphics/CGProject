@@ -28,7 +28,6 @@ private:
 	Shader* shader;
 	Shader* simpleDepthShader;
 	Shader* debugDepthQuad;
-	float ambientStrength, specularStrength, diffuseStrength;
-	int specN;
+	float ambientStrength, specularStrength, diffuseStrength, shininess;
 };
 
