@@ -1,7 +1,7 @@
 # CGProject
 
-* :warning: ​ **[项目报告](./doc/report.md)**
-* ⚠️  **[演示视频](./doc/演示视频.mp4)**
+* :warning: **[项目报告](./doc/report.md)**
+* :warning: **[演示视频](./doc/演示视频.mp4)**
 
 > A computer graphics project
 >
@@ -185,9 +185,9 @@ target->render(projection, view);
 
 ## 模型导入 by wuzht
 
-> ⚠️ Assimp 已经配置好，无需再配置。[这里](./配置Assimp.md) 总结了配置方法。
+> :warning: Assimp 已经配置好，无需再配置。[这里](./配置Assimp.md) 总结了配置方法。
 >
-> ⚠️ 运行前要复制一个 dll 文件，请阅读 [运行方法](#运行方法)
+> :warning: 运行前要复制一个 dll 文件，请阅读 [运行方法](#运行方法)
 
 ### 文件变动
 
@@ -209,7 +209,7 @@ target->render(projection, view);
 
     `CGModel` 类构造函数的参数列表是 模型路径、vertex shader 路径、fragment shader 路径。
     
-    ⚠️ 创建一个`CGModel` 对象后，要通过 `setModelMatrix` 函数设置好模型的 `model` 矩阵 (自己调参)
+    :warning: 创建一个`CGModel` 对象后，要通过 `setModelMatrix` 函数设置好模型的 `model` 矩阵 (自己调参)
     
     `render` 函数在渲染循环里调用，参数是 `projection`、`view` 矩阵
 
