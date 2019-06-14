@@ -184,5 +184,14 @@
     <None Include="GLSL\simpleDepthShader.vs">
       <Filter>源文件\GLSL</Filter>
     </None>
+<<<<<<< HEAD
+=======
+    <None Include="GLSL\bullet_light.fs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="GLSL\bullet_light.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+>>>>>>> 11b32d0d818f90806db00f2105748babd34c151d
   </ItemGroup>
 </Project>

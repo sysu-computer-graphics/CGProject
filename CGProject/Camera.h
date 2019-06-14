@@ -21,6 +21,8 @@ public:
 	void setBoundary(std::vector<glm::vec2> boundary);
 	float getZoom() const { return zoom; };
 	glm::vec3 getPosition() const { return position; }
+	float getYaw() const { return yaw; }
+	float getPitch() const { return pitch; }
 
 	// Returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 getViewMatrix() const;

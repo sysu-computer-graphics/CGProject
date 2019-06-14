@@ -24,7 +24,7 @@ int main()
 	bool show_demo_window = false;
 
 	// display cursor
-	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// skybox
 	SkyBox skybox("envmap_miramar");
@@ -33,14 +33,15 @@ int main()
 	glm::mat4 staticViewMat = Controler::getInstance()->camera.getViewMatrix();
 
 	//scene
-	CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	scene.setModelMatrix(model);
+	//CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	//model = glm::mat4(1.0f);
+	//model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
+	//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	//scene.setModelMatrix(model);
 
+	Model bulletModel("resources/model/bullet/scene.gltf");
 	Player *player = Player::getInstance();
 	Target *target = new Target(targetPos);
 
@@ -81,12 +82,12 @@ int main()
 		skybox.render(Controler::getInstance()->camera);
 
 		/*************************** model render **********************************/
-		scene.render(projection, view);
+		//scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}
-		Controler::getInstance()->bulletManager->render();
-		
+		// 传入bulletModel模型，绘制子弹
+		Controler::getInstance()->bulletManager->render(bulletModel, Controler::lightPos);
 
 		/*************************** ImGui render **********************************/
 		Controler::renderImGui();

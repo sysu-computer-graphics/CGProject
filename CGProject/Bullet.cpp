@@ -8,7 +8,7 @@ Bullet::Bullet(glm::vec3 front, glm::vec3 pos)
 {
 	this->position = pos;
 	this->front = front;
-	this->shader = new Shader("GLSL/bullet.vs", "GLSL/bullet.fs");
+	this->shader = new Shader("GLSL/bullet_light.vs", "GLSL/bullet_light.fs");
 	this->id = Bullet::genRandomString();
 	InitialData();
 }
@@ -79,7 +79,7 @@ void Bullet::InitialData()
 
 }
 
-void Bullet::render() {
+void Bullet::render(Model &bulletModel, const glm::vec3 &_lightPos) {
 	// don't forget to enable shader before setting uniforms
 	this->shader->use();
 
@@ -103,13 +103,30 @@ void Bullet::render() {
 		Controler::getInstance()->bulletManager->deleteBullet(this->id);
 
 
-	//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 8.0f)); // translate it down so it's at the center of the scene
-	model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.2f));	// it's a bit too big for our scene, so scale it down
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	// 子弹按当前yaw, pitch旋转，使得射出子弹时只看到它的尾部
+	model = glm::rotate(model, glm::radians(-Controler::camera.getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(Controler::camera.getPitch()), glm::vec3(0.0f, 0.0f, 1.0f));
 	this->shader->setMat4("model", model);
 
-	glBindVertexArray(VAO);
+	// 光照设置
+	float ambientStrength = 0.5f;
+	float diffuseStrength = 1.0f;
+	float specularStrength = 0.8f;
+	int shininess = 64;
+	this->shader->setFloat("ambientStrength", ambientStrength);
+	this->shader->setFloat("diffuseStrength", diffuseStrength);
+	this->shader->setFloat("specularStrength", specularStrength);
+	this->shader->setInt("shininess", shininess);
+	this->shader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+	this->shader->setVec3("lightPos", _lightPos);
+	this->shader->setVec3("viewPos", Player::getInstance()->getPosition());
+
+	bulletModel.draw(*this->shader);
+	
+	/*glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
+	glBindVertexArray(0);*/
 }
 
 std::string Bullet::genRandomString() {
