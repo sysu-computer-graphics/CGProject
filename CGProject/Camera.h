@@ -49,7 +49,7 @@ private:
 	glm::vec3 up;
 	glm::vec3 right;
 	glm::vec3 worldUp;
-	glm::vec4 activeBoundary;
+	std::vector<glm::vec2> activeBoundary;
 	// Euler Angles
 	float yaw;
 	float pitch;
@@ -66,4 +66,5 @@ private:
 
 	// Calculates the front vector from the Camera's (updated) Euler Angles
 	void updateCameraVectors();
+	bool isNowInBoundary();
 };

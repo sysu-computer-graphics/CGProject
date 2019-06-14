@@ -10,9 +10,9 @@
 
 float radians = 0.0f;
 //target position
-glm::vec3 targetPos = glm::vec3(5.0f, 0.0f, 0.0f);
+glm::vec3 targetPos = glm::vec3(9.0f, 1.8f, 1.5f);
 //light position relative to target
-glm::vec3 relativePos = glm::vec3(0.0f, 7.0f, -2.0f);
+glm::vec3 relativePos = glm::vec3(0.0f, 7.0f, -4.0f);
 
 glm::vec3 Controler::lightPos = targetPos + relativePos;
 
@@ -43,7 +43,6 @@ int main()
 
 	Player *player = Player::getInstance();
 	Target *target = new Target(targetPos);
-
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -82,7 +81,6 @@ int main()
 		skybox.render(Controler::getInstance()->camera);
 
 		/*************************** model render **********************************/
-		//nanosuit.render(projection, view);
 		scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
