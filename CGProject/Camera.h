@@ -18,6 +18,7 @@ public:
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
 	~Camera();
 	void reset();
+	void setBoundary(std::vector<glm::vec2> boundary);
 	float getZoom() const { return zoom; };
 	glm::vec3 getPosition() const { return position; }
 
@@ -48,6 +49,7 @@ private:
 	glm::vec3 up;
 	glm::vec3 right;
 	glm::vec3 worldUp;
+	glm::vec4 activeBoundary;
 	// Euler Angles
 	float yaw;
 	float pitch;

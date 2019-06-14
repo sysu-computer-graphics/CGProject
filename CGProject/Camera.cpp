@@ -18,6 +18,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
 	this->worldUp = up;
 	this->yaw = yaw;
 	this->pitch = pitch;
+	this->activeBoundary = glm::vec4(position[0] - 50.0f, position[0] + 50.0f, position[2] - 50.0f, position[2] + 50.0f);
 
 	this->init_position = position;
 	this->init_up = up;
@@ -98,12 +99,21 @@ glm::mat4 Camera::getViewMatrix() const
 void Camera::processKeyBoard(const CameraMovement direction, const float deltaTime)
 {
 	float velocity = movementSpeed * deltaTime;
+	
 	glm::vec3 tempFront = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
 	glm::vec3 tempRight = glm::normalize(glm::cross(tempFront, worldUp));
 	if (direction == FORWARD) position += tempFront * velocity;
 	if (direction == BACKWARD) position -= tempFront * velocity;
 	if (direction == LEFT) position -= tempRight * velocity;
 	if (direction == RIGHT) position += tempRight * velocity;
+
+	//if (!(position[0] >= activeBoundary[0] && position[0] <= activeBoundary[1])
+	//	&& (position[2] >= activeBoundary[2] && position[2] <= activeBoundary[3])) {
+	//	if (direction == FORWARD) position -= tempFront * velocity;
+	//	if (direction == BACKWARD) position += tempFront * velocity;
+	//	if (direction == LEFT) position += tempRight * velocity;
+	//	if (direction == RIGHT) position -= tempRight * velocity;
+	//}
 }
 
 void Camera::processMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
@@ -146,4 +156,8 @@ void Camera::updateCameraVectors()
 
 glm::vec3 Camera::getFrontVec() {
 	return front;
+}
+
+void Camera::setBoundary(glm::vec4 boundary) {
+	activeBoundary = boundary;
 }

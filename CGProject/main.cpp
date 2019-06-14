@@ -31,17 +31,6 @@ int main()
 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 staticViewMat = Controler::getInstance()->camera.getViewMatrix();
-	/*
-	//scene
-	CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	scene.setModelMatrix(model);
-	*/
-	Target *target = new Target(targetPos);
 
 	//scene
 	CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
@@ -53,6 +42,8 @@ int main()
 	scene.setModelMatrix(model);
 
 	Player *player = Player::getInstance();
+	Target *target = new Target(targetPos);
+
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -68,6 +59,7 @@ int main()
 		{
 			// Demo Window
 			if (show_demo_window) ImGui::ShowDemoWindow();
+			ImGui::Text("(%.3f, %.3f, %.3f)", Controler::camera.getPosisiotn()[0], Controler::camera.getPosisiotn()[1], Controler::camera.getPosisiotn()[2]);
 			ImGui::Checkbox("Demo Window", &show_demo_window);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			ImGui::InputFloat("rotate: ", &radians, 1.0f);
@@ -90,9 +82,8 @@ int main()
 		skybox.render(Controler::getInstance()->camera);
 
 		/*************************** model render **********************************/
-		nanosuit.render(projection, view);
+		//nanosuit.render(projection, view);
 		scene.render(projection, view);
-		//scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}

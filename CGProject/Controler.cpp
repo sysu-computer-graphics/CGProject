@@ -14,6 +14,7 @@ bool Controler::firstMouse = true;
 
 Controler::Controler()
 {
+	camera.setBoundary(glm::vec4(-75.0f, 130.5f, -110.0f, 106.0f));
 }
 
 Controler::~Controler()
