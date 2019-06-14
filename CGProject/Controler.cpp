@@ -213,6 +213,9 @@ void Controler::processInput(GLFWwindow * window)
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
+
+		// 空格键，跳起
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !player->isJumping) player->onSpaceKeyDownJump();
 	}
 
 	// 按左ctrl键，进入上帝视角

@@ -1,5 +1,8 @@
 # CGProject
 
+* :warning: ​ **[项目报告](./doc/report.md)**
+* ⚠️  **[演示视频](./doc/演示视频.mp4)**
+
 > A computer graphics project
 >
 > 所用库版本清单：
@@ -8,6 +11,14 @@
 > * glm-0.9.9.5
 > * assimp-4.1.0
 >
+
+
+
+## 添加玩家模拟重力跳跃 wuzht
+
+玩家按空格键可以跳跃
+
+
 
 ## 添加了子弹模型 wuzht
 

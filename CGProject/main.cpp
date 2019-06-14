@@ -59,10 +59,9 @@ int main()
 		{
 			// Demo Window
 			if (show_demo_window) ImGui::ShowDemoWindow();
-			ImGui::Text("(%.3f, %.3f, %.3f)", Controler::camera.getPosisiotn()[0], Controler::camera.getPosisiotn()[1], Controler::camera.getPosisiotn()[2]);
-			ImGui::Checkbox("Demo Window", &show_demo_window);
+			ImGui::Text("(%.3f, %.3f, %.3f)", Controler::camera.getPosition().x, Controler::camera.getPosition().y, Controler::camera.getPosition().z);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-			ImGui::InputFloat("rotate: ", &radians, 1.0f);
+			//ImGui::InputFloat("rotate: ", &radians, 1.0f);
 		}
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);

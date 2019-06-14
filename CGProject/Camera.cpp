@@ -53,10 +53,6 @@ Camera::~Camera()
 {
 }
 
-glm::vec3 Camera::getPosisiotn() {
-	return this->position;
-}
-
 void Camera::startCloseUp(glm::vec3 pos) {
 	this->init_position = this->position;
 	this->init_up = this->up;

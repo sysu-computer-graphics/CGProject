@@ -6,11 +6,14 @@ Player::Player(const std::string & path)
 {
 	this->shader = new Shader("GLSL/model_loading.vs", "GLSL/model_loading.fs");
 	this->model = new Model(path);
-	this->position = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->position = Controler::getInstance()->camera.getPosition();
 	this->radians = 0.0f;
 	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->front = glm::vec3(0.0f, 0.0f, 1.0f);
 	this->right = glm::vec3(-1.0f, 0.0f, 0.0f);
+
+	this->isJumping = false;
+	this->jumpVelocity = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 
@@ -45,6 +48,18 @@ void Player::setRotate(float radians) {
 
 void Player::render(glm::mat4 view)
 {
+	if (this->isJumping) {
+		//glm::vec3 acceleration = gravity + accelerUp;
+		jumpVelocity += gravity * Controler::deltaTime * 3.0f;
+		this->position += jumpVelocity * 0.04f;
+
+		// 3.2f是摄像机初始position的y值
+		if (this->position.y < 3.2f) {
+			this->position.y = 3.2f;
+			this->isJumping = false;
+		}
+		Controler::camera.setPosition(this->position);
+	}
 	// don't forget to enable shader before setting uniforms
 	this->shader->use();
 
@@ -79,6 +94,12 @@ void Player::onKeyDown(const Camera::CameraMovement direction, const float delta
 	if (direction == Camera::CameraMovement::RIGHT) position += right * velocity;
 	// 摄像机同步进行移动
 	Controler::camera.processKeyBoard(direction, deltaTime);
+}
+
+void Player::onSpaceKeyDownJump()
+{
+	this->isJumping = true;
+	this->jumpVelocity = glm::vec3(0.0f, this->jumpInitSpeed, 0.0f);
 }
 
 void Player::updatePlayerVectors() {

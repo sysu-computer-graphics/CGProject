@@ -14,6 +14,7 @@ public:
 	void setRotate(float radians);
 	void onMouseMove(float xoffset, float yoffset);
 	void onKeyDown(const Camera::CameraMovement direction, const float deltaTime);
+	void onSpaceKeyDownJump();
 	void startCloseUp();
 	void endCloseUp();
 	static Player * getInstance()
@@ -23,6 +24,8 @@ public:
 		}
 		return instance;
 	}
+
+	bool isJumping;
 private:
 	Player(const std::string &path = "resources/model/AK12/sf2arms.obj");
 	~Player();
@@ -36,5 +39,9 @@ private:
 	glm::vec3 up;
 	glm::vec3 right;
 	void updatePlayerVectors();
+
+	const float jumpInitSpeed = 10.0f;
+	const glm::vec3 gravity = glm::vec3(0.0f, -9.8f, 0.0f);
+	glm::vec3 jumpVelocity;
 };
 

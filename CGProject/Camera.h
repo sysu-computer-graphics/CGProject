@@ -20,6 +20,7 @@ public:
 	void reset();
 	void setBoundary(std::vector<glm::vec2> boundary);
 	float getZoom() const { return zoom; };
+	void setPosition(const glm::vec3 &position) { this->position = position; };
 	glm::vec3 getPosition() const { return position; }
 	float getYaw() const { return yaw; }
 	float getPitch() const { return pitch; }
@@ -35,7 +36,6 @@ public:
 
 	void startCloseUp(glm::vec3 pos);
 	void endCloseUp();
-	glm::vec3 getPosisiotn();
 	glm::vec3 getFrontVec();
 private:
 	// Default camera values
