@@ -29,7 +29,7 @@ void FontRenderer::initCharacter() {
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
 
 	FT_Face face;
-	if (FT_New_Face(ft, "resources/font/Source_Sans_Pro/SourceSansPro-Regular.ttf", 0, &face))
+	if (FT_New_Face(ft, "resources/font/Mali/Mali-Regular.ttf", 0, &face))
 		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 
 	// 定义字体大小

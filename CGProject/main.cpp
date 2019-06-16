@@ -27,6 +27,7 @@ int main()
 	// display cursor
 	//glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	// initial font renderer
 	FontRenderer::getInstance()->init();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -38,18 +39,17 @@ int main()
 	glm::mat4 staticViewMat = Controler::getInstance()->camera.getViewMatrix();
 
 	//scene
-	//CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	//model = glm::mat4(1.0f);
-	//model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
-	//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	//scene.setModelMatrix(model);
+	CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	scene.setModelMatrix(model);
 
 	Model bulletModel("resources/model/bullet/scene.gltf");
 	Player *player = Player::getInstance();
 	Target *target = new Target(targetPos);
-
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -86,13 +86,9 @@ int main()
 		glDepthFunc(GL_LEQUAL);
 		skybox.render(Controler::getInstance()->camera);
 
-		// text render
-		FontRenderer::getInstance()->RenderText("This is sample text", 0.0f, 5.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-		FontRenderer::getInstance()->RenderText("(C) LearnOpenGL.com", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
-
 
 		/*************************** model render **********************************/
-		//scene.render(projection, view);
+		scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}
@@ -101,6 +97,10 @@ int main()
 
 		/*************************** ImGui render **********************************/
 		Controler::renderImGui();
+
+		// text render example
+		FontRenderer::getInstance()->RenderText("Total Hits: 99+!!", 10.0f, 10.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+		FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
 
 		glfwSwapBuffers(Controler::getInstance()->window);
 		glfwPollEvents();

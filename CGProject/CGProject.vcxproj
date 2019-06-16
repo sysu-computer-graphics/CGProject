@@ -171,12 +171,12 @@
     <ClInclude Include="Target.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="font.fs" />
-    <None Include="font.vs" />
     <None Include="GLSL\bullet.fs" />
     <None Include="GLSL\bullet.vs" />
     <None Include="GLSL\bullet_light.fs" />
     <None Include="GLSL\bullet_light.vs" />
+    <None Include="GLSL\font.fs" />
+    <None Include="GLSL\font.vs" />
     <None Include="GLSL\model_loading.fs" />
     <None Include="GLSL\model_loading.vs" />
     <None Include="GLSL\quad_depth.fs" />

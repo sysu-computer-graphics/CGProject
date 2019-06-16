@@ -196,10 +196,10 @@
     <None Include="GLSL\bullet_light.vs">
       <Filter>源文件\GLSL</Filter>
     </None>
-    <None Include="font.vs">
+    <None Include="GLSL\font.fs">
       <Filter>源文件\GLSL</Filter>
     </None>
-    <None Include="font.fs">
+    <None Include="GLSL\font.vs">
       <Filter>源文件\GLSL</Filter>
     </None>
   </ItemGroup>

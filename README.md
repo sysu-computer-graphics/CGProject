@@ -10,15 +10,29 @@
 > * ImGui v1.68
 > * glm-0.9.9.5
 > * assimp-4.1.0
+> * FreeType-2.10.0
 >
 
 
+## 添加文字渲染 by 李杰泓
+
+使用 FreeType 库加载 `.ttf` 字体文件，通过 `FontRenderer` 管理字体加载、相关字符数据保存、渲染调用。
+
+### 文件变动
+
+- 添加使用 FreeType 所需的头文件及 `.lib` `.dll` 文件
+- 新增 `FontRenderer` 字体渲染类
+- 添加着色器代码 `font.vs` `font.fs`
+
+### FontRenderer 使用
+
+`void FontRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)`
+
+调用 `FontRenderer` 实例的 `RenderText` 方法，依次传入想要显示的字符串（目前只支持128个ASCII码）、相对于窗口左下角的坐标、字体缩放系数、字体颜色，即可。
 
 ## 添加玩家模拟重力跳跃 wuzht
 
 玩家按空格键可以跳跃
-
-
 
 ## 添加了子弹模型 wuzht
 
@@ -141,7 +155,7 @@ target->render(projection, view);
 
 
 
-## 射击操作 ljh
+## 射击操作 by 李杰泓
 
 - 添加鼠标点击事件监听，左键点击时触发子弹发射
 - 通过 `BulletManager` 维护子弹的生成、渲染、销毁
@@ -157,7 +171,7 @@ target->render(projection, view);
 
 
 
-## Camera Roaming 李杰泓
+## Camera Roaming by 李杰泓
 
 - 添加单实例 Player 类，`controller` 监听鼠标、键盘事件分发给 `Player` 而不再是 `Camera`
 - Camera 绑定到 Player 上，通过 `Player` 更新 `Camera` 位置，并且视角转动时改变 
