@@ -85,7 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>assimp-vc140-mt.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc140-mt.lib;opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,6 +131,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CGModel.cpp" />
     <ClCompile Include="Controler.cpp" />
+    <ClCompile Include="FontRenderer.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="CGModel.h" />
     <ClInclude Include="CG_stb_image.h" />
     <ClInclude Include="Controler.h" />
+    <ClInclude Include="FontRenderer.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_glfw.h" />
@@ -169,6 +171,8 @@
     <ClInclude Include="Target.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="font.fs" />
+    <None Include="font.vs" />
     <None Include="GLSL\bullet.fs" />
     <None Include="GLSL\bullet.vs" />
     <None Include="GLSL\bullet_light.fs" />

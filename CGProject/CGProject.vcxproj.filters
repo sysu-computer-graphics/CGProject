@@ -78,6 +78,9 @@
     <ClCompile Include="Target.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="FontRenderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -140,6 +143,9 @@
     <ClInclude Include="Target.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="FontRenderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GLSL\shader.fs">
@@ -188,6 +194,12 @@
       <Filter>源文件\GLSL</Filter>
     </None>
     <None Include="GLSL\bullet_light.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="font.vs">
+      <Filter>源文件\GLSL</Filter>
+    </None>
+    <None Include="font.fs">
       <Filter>源文件\GLSL</Filter>
     </None>
   </ItemGroup>
