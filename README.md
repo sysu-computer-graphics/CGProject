@@ -331,7 +331,9 @@ model.draw(shader);
 
    如果这个文件夹不存在 (您刚刚 clone 了本仓库时)，您可以先点击运行项目，然后这个文件夹就出现了，并且会提示您找不到 `assimp-vc140-mt.dll`。
 
-5. 运行
+5. 将 `Libs` 文件夹中的 `freetype.dll` 复制到您 OpenGL 工程中可执行文件的同一目录下，即复制到 `Debug` 文件夹中 (如果您是 Release 模式，则复制到 `Release` 文件夹中)。
+
+6. 运行
 
 
 
