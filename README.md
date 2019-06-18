@@ -13,6 +13,31 @@
 > * FreeType-2.10.0
 >
 
+## 粒子特效 by 李杰泓
+
+初始化粒子生成器：
+
+```
+ParticleGenerator particles(100);
+```
+
+更新粒子数据：（包括两帧之间的时间差、新增粒子数目、粒子运动方向、偏移量等，这里可以根据不同粒子效果做不同的定制）
+
+```
+particles.updateParticles(Controler::deltaTime, 2, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 5.0f), glm::vec2(10.0f, 10.0f));
+```
+
+在每一帧中渲染粒子：
+```
+particles.renderParticles();
+```
+
+### 文件变动
+
+- 新增 `ParticleGenerator` 类，内部维护粒子队列，负责粒子的创建、更新、渲染。
+- 结构体 `Particle`，每个粒子表示的数据结构，包括粒子的生命周期、位置、运动速度、颜色等相关属性
+- `particle.vs` `particle.fs` 粒子相关的着色器代码
+
 
 ## 添加文字渲染 by 李杰泓
 
