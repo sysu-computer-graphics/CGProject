@@ -65,7 +65,7 @@ void Player::render(glm::mat4 view)
 
 	// view/projection transformations
 	glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);
-	this->shader->setMat4("projection", projection);
+	this->shader->setMat4("projection", projection); 
 	this->shader->setMat4("view", view);
 
 	// render the loaded model

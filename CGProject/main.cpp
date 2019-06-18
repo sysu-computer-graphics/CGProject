@@ -8,6 +8,7 @@
 #include "Bullet.h"
 #include "Target.h"
 #include "FontRenderer.h"
+#include "ParticleGenerator.h"
 
 float radians = 0.0f;
 //target position
@@ -50,6 +51,7 @@ int main()
 	Model bulletModel("resources/model/bullet/scene.gltf");
 	Player *player = Player::getInstance();
 	Target *target = new Target(targetPos);
+	ParticleGenerator particles(100);
 
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
@@ -74,6 +76,9 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 		//Controler::getInstance()->targetManager->render();
 		
+		// 更新粒子数据
+		particles.updateParticles(Controler::deltaTime, 2, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 5.0f), glm::vec2(10.0f, 10.0f));
+
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);
 		glm::mat4 view = Controler::camera.getViewMatrix();
@@ -101,6 +106,8 @@ int main()
 		// text render example
 		FontRenderer::getInstance()->RenderText("Total Hits: 99+!!", 10.0f, 10.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
 		FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+
+		particles.renderParticles();
 
 		glfwSwapBuffers(Controler::getInstance()->window);
 		glfwPollEvents();

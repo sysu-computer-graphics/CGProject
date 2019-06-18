@@ -142,6 +142,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ParticleGenerator.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SkyBox.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SkyBox.h" />
@@ -179,6 +181,8 @@
     <None Include="GLSL\font.vs" />
     <None Include="GLSL\model_loading.fs" />
     <None Include="GLSL\model_loading.vs" />
+    <None Include="GLSL\particle.fs" />
+    <None Include="GLSL\particle.vs" />
     <None Include="GLSL\quad_depth.fs" />
     <None Include="GLSL\quad_depth.vs" />
     <None Include="GLSL\shader.fs" />
@@ -189,6 +193,8 @@
     <None Include="GLSL\simpleDepthShader.vs" />
     <None Include="GLSL\skybox_fragement.fs" />
     <None Include="GLSL\skybox_vertex.vs" />
+    <None Include="GLSL\test.fs" />
+    <None Include="GLSL\test.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
