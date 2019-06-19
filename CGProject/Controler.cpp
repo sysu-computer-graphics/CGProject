@@ -53,6 +53,7 @@ GLuint Controler::loadTexture(std::string path)
 	unsigned char* data = stbi_load(path.c_str(), &pic_width, &pic_height, &nrChannels, 0);
 	//生成纹理
 	if (data) {
+		//把纹理指定为一个sRGB纹理(用于gamma校正),OpenGL将自动把颜色校正到线性空间中
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pic_width, pic_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}

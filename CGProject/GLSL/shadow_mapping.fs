@@ -68,6 +68,7 @@ void main()
 	vec3 diffuse = diff * lightColor * diffuseStrength;
 
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos); 
+	// Blinn-Phong
 	vec3 halfwayDir = normalize(lightDir + viewDir);  
 	float spec = pow(max(dot(norm, halfwayDir), 0.0), material.shininess);
 	vec3 specular = specularStrength * spec * lightColor;  
@@ -75,6 +76,10 @@ void main()
 	//“ı”∞
 	float shadow = ShadowCalculation(fs_in.FragPosLightSpace, lightDir, norm);
 	vec3 result = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;
+
+	// apply gamma correction
+	float gamma = 2.2f;
+    result = pow(result, vec3(1.0/gamma));
 	
 	FragColor = vec4(result, 1.0);
 }
