@@ -13,6 +13,9 @@
 > * FreeType-2.10.0
 >
 
+## 添加Gamma矫正 by 沈大伟
+
+为target和bullet添加gamma矫正，其中，设定gamma=2.2
 
 ## 添加文字渲染 by 李杰泓
 
