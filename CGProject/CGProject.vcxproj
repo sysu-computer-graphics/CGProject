@@ -193,8 +193,6 @@
     <None Include="GLSL\simpleDepthShader.vs" />
     <None Include="GLSL\skybox_fragement.fs" />
     <None Include="GLSL\skybox_vertex.vs" />
-    <None Include="GLSL\test.fs" />
-    <None Include="GLSL\test.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

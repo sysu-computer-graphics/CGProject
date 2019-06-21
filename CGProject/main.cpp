@@ -77,7 +77,7 @@ int main()
 		//Controler::getInstance()->targetManager->render();
 		
 		// 更新粒子数据
-		particles.updateParticles(Controler::deltaTime, 2, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 5.0f), glm::vec2(10.0f, 10.0f));
+		particles.updateParticles(Controler::deltaTime, 10, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 5.0f), glm::vec2(10.0f, 10.0f));
 
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);

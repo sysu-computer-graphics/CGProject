@@ -214,11 +214,5 @@
     <None Include="GLSL\particle.fs">
       <Filter>源文件\GLSL</Filter>
     </None>
-    <None Include="GLSL\test.vs">
-      <Filter>源文件\GLSL</Filter>
-    </None>
-    <None Include="GLSL\test.fs">
-      <Filter>源文件\GLSL</Filter>
-    </None>
   </ItemGroup>
 </Project>
