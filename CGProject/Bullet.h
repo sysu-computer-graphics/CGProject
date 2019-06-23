@@ -19,6 +19,7 @@ public:
 	Bullet(glm::vec3 front = glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3 pos = glm::vec3(0.0f, 0.0f, 0.0f));
 	~Bullet();
 	void render(Model &bulletModel, const glm::vec3 &lightPos);
+	glm::vec3 getPosition() const { return position; }
 private:
 	glm::vec3 position;
 	glm::vec3 front;

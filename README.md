@@ -13,6 +13,10 @@
 > * FreeType-2.10.0
 >
 
+## 碰撞检测 by wuzht
+
+子弹 (Bullet) 与目标物体 (Target) 的碰撞检测，当某一个 Bullet 与 Target 发生碰撞时，该 Bullet 消失，Target 随机改变位置。
+
 ## 添加Gamma矫正 by 沈大伟
 
 为target和bullet添加gamma矫正，其中，设定gamma=2.2

@@ -2,12 +2,15 @@
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 
+#include <stdlib.h>
+
 #include "SkyBox.h"
 #include "CGModel.h"
 #include "Player.h"
 #include "Bullet.h"
 #include "Target.h"
 #include "FontRenderer.h"
+#include "PhysicsEngine.h"
 
 float radians = 0.0f;
 //target position
@@ -32,6 +35,9 @@ int main()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	// PhysicsEngine
+	PhysicsEngine::getInstance();
+
 	// skybox
 	SkyBox skybox("envmap_miramar");
 
@@ -51,6 +57,7 @@ int main()
 	Player *player = Player::getInstance();
 	Target *target = new Target(targetPos);
 
+	int score = 0;
 	/******************************** Render Loop ****************************************/
 	while (!glfwWindowShouldClose(Controler::getInstance()->window)) {
 		/* 确保摄像机在所有硬件上移动速度都一样 https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_4 */
@@ -78,6 +85,11 @@ int main()
 		glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);
 		glm::mat4 view = Controler::camera.getViewMatrix();
 
+		if (PhysicsEngine::hasCollision(target)) {
+			// 检测到与子弹有碰撞时，分数加一，target的位置随机改变
+			score++;
+			target->setPosition(glm::vec3(rand() % 20, 4.0f, rand() % 20));
+		}
 		target->render(projection, view);
 
 		glViewport(0, 0, Controler::getInstance()->getScrWidth(), Controler::getInstance()->getScrHeight());
@@ -99,7 +111,7 @@ int main()
 		Controler::renderImGui();
 
 		// text render example
-		FontRenderer::getInstance()->RenderText("Total Hits: 99+!!", 10.0f, 10.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+		FontRenderer::getInstance()->RenderText(std::string("Total Hits: ") + std::to_string(score), 10.0f, 10.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
 		FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
 
 		glfwSwapBuffers(Controler::getInstance()->window);

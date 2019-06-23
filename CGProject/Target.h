@@ -12,6 +12,7 @@ public:
 	~Target();
 	void render(glm::mat4 projection, glm::mat4 view);
 	glm::vec3 getPosition() { return position; }
+	void setPosition(const glm::vec3 &pos) { this->position = pos; }
 
 private:
 	glm::vec3 position;
