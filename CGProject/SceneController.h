@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Shader.h"
+#include "CGModel.h"
 
 class SceneController
 {
@@ -21,7 +22,9 @@ private:
 	float angle;
 	GLuint cubeVAO, cubeVBO;
 	GLuint planeVAO, planeVBO;
-	GLuint myTexture;
+	GLuint groundTexture, targetTexture;
+
+	CGModel* Muwu;
 
 	GLuint depthMapFBO, depthMap;
 	const GLuint SHADOW_WINDTH = 1024;

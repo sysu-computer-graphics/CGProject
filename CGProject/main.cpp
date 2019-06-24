@@ -17,7 +17,7 @@ float radians = 0.0f;
 //target position
 glm::vec3 targetPos = glm::vec3(9.0f, 1.8f, 4.5f);
 
-glm::vec3 Controler::lightPos = glm::vec3(40.0f, 40.0f, 100.0f);
+glm::vec3 Controler::lightPos = glm::vec3(100.0f, 100.0f, -50.0f);
 
 int main()
 {
@@ -45,13 +45,13 @@ int main()
 
 
 	//scene
-	//CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	//model = glm::mat4(1.0f);
+	CGModel scene("resources/model/hercules_at_rest/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	model = glm::mat4(1.0f);
 	//model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
-	//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	//scene.setModelMatrix(model);
+	scene.setModelMatrix(model);
 
 	Model bulletModel("resources/model/bullet/scene.gltf");
 	Player *player = Player::getInstance();
@@ -101,7 +101,7 @@ int main()
 
 
 		/*************************** model render **********************************/
-		/*scene.render(projection, view);*/
+		scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}

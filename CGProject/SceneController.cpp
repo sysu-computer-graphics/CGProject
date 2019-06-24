@@ -1,6 +1,7 @@
 #include "SceneController.h"
 #include "Shader.h"
 #include "Controler.h"
+#include "CGModel.h"
 
 SceneController* SceneController::instance = nullptr;
 
@@ -10,6 +11,7 @@ SceneController::~SceneController() {
 	if (instance) {
 		delete instance;
 	}
+	delete Muwu;
 }
 
 SceneController* SceneController::getInstance() {
@@ -20,6 +22,12 @@ SceneController* SceneController::getInstance() {
 }
 
 void SceneController::init() {
+
+	glm::mat4 model = glm::mat4(1.0f);
+
+	Muwu = new CGModel("resources/model/Muwu/Muwu.obj", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	Muwu->setModelMatrix(model);
+
 	simpleDepthShader = Controler::getInstance()->simpleDepthShader;
 	shader = Controler::getInstance()->shadowMappingShader;
 	debugDepthQuad = Controler::getInstance()->debugDepthQuadShader;
@@ -51,7 +59,8 @@ void SceneController::init() {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindVertexArray(0);
 
-	myTexture = Controler::loadTexture("resources/picture/plane.jpg");
+	groundTexture = Controler::loadTexture("resources/picture/plane.jpg");
+	targetTexture = Controler::loadTexture("resources/picture/pic.png");
 
 	depthMap = Controler::getInstance()->depthMap;
 	depthMapFBO = Controler::getInstance()->depthMapFBO;
@@ -133,9 +142,11 @@ void SceneController::init() {
 
 	this->angle = 0.0f;
 	this->targetPosition = glm::vec3(0.0f, 5.0f, 0.0f);
+
 }
 
 void SceneController::render(glm::mat4 projection, glm::mat4 view) {
+	//Muwu->render(projection, view);
 	this->angle += 0.5f;
 	//äÖÈ¾Éî¶ÈÍ¼
 	GLfloat near_plane = 0.1f, far_plane = 200.0f;
@@ -150,19 +161,20 @@ void SceneController::render(glm::mat4 projection, glm::mat4 view) {
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glCullFace(GL_FRONT);
-
+	
 	renderScene(simpleDepthShader);
-
+	
 	glCullFace(GL_BACK);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+	
 	//äÖÈ¾±³¾°ÑÕÉ«
 	int view_width, view_height;
 	glfwGetFramebufferSize(Controler::getInstance()->window, &view_width, &view_height);
 	glViewport(0, 0, view_width, view_height);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	//glClear(GL_DEPTH_BUFFER_BIT);
+	//Muwu->render(projection, view);
 	//äÖÈ¾ÕæÊµÍ¼Ïñ
 	shader->use();
 
@@ -176,14 +188,9 @@ void SceneController::render(glm::mat4 projection, glm::mat4 view) {
 	shader->setFloat("specularStrength", specularStrength);
 	shader->setFloat("diffuseStrength", diffuseStrength);
 	shader->setFloat("material.shininess", shininess);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, myTexture);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, depthMap);
-
+	//Muwu->render(projection, view);
 	renderScene(shader);
-
+	//Muwu->render(projection, view);
 	/*
 	//ÏÔÊ¾lightµÄÎ»ÖÃ
 	glm::mat4 model = glm::mat4(1.0f);
@@ -198,9 +205,16 @@ void SceneController::render(glm::mat4 projection, glm::mat4 view) {
 	debugDepthQuad->setFloat("far_plane", far_plane);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
+
+	//Muwu->render(projection, view);
 }
 
 void SceneController::renderScene(Shader* renderShader) {
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, groundTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+
 	glm::mat4 model = glm::mat4(1.0f);
 
 	renderShader->setMat4("model", model);
@@ -209,6 +223,11 @@ void SceneController::renderScene(Shader* renderShader) {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, targetTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, targetPosition);
 	model = glm::translate(model, glm::vec3(0.0f, -0.5f, 0.0f));
