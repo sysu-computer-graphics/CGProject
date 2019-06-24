@@ -40,14 +40,26 @@ void SceneController::initData() {
 
 	// ’œ∞≠
 	for (int i = 0; i < targetPositionSet.size(); i++) {
-		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(-6.0f, 0.0f, 0.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(-8.0f, 0.0f, 0.0f));
 		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(8.0f, 0.0f, 0.0f));
-		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(0.0f, 0.0f, -4.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(0.0f, 0.0f, -8.0f));
 		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(0.0f, 0.0f, 8.0f));
-		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(5.0f, 0.0f, 6.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(6.0f, 0.0f, 8.0f));
 		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(-5.0f, 0.0f, -5.0f));
-		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(3.0f, 0.0f, -5.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(8.0f, 0.0f, -5.0f));
 		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(-5.0f, 0.0f, 5.0f));
+
+		for (int j = 0; j < 8; j++) {
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, barrierPositionSet[i*8 + j] );
+			model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+			model = glm::rotate(model, glm::radians((float)(rand() % 90)), glm::vec3(0.0f, 0.0f, 1.0f));
+			model = glm::rotate(model, glm::radians((float)(rand() % 90)), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::rotate(model, glm::radians((float)(rand() % 90)), glm::vec3(1.0f, 0.0f, 0.0f));
+			float temp = (float)(rand() % 150) / 100.0f + 0.3;
+			model = glm::scale(model, glm::vec3(temp, temp, temp));
+			barrierModelList.push_back(model);
+		}
 	}
 }
 
@@ -267,7 +279,7 @@ void SceneController::renderScene(Shader* renderShader) {
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, targetPosition);
-	model = glm::translate(model, glm::vec3(0.0f, 1.8f, 0.0f));
+	model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(this->angle), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -277,10 +289,7 @@ void SceneController::renderScene(Shader* renderShader) {
 	glBindVertexArray(0);
 
 	for (int i = 0; i < barrierPositionSet.size(); ++i) {
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, barrierPositionSet[i]);
-		model = glm::translate(model, glm::vec3(0.0f, 1.8f, 0.0f));
-		renderShader->setMat4("model", model);
+		renderShader->setMat4("model", barrierModelList[i]);
 		glBindVertexArray(cubeVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);

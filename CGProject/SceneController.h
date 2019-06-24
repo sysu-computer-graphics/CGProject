@@ -28,6 +28,7 @@ private:
 
 	CGModel* Muwu;
 
+	bool firstRender = true;
 	GLuint depthMapFBO, depthMap;
 	const GLuint SHADOW_WINDTH = 1024;
 	const GLuint SHADOW_HEIGHT = 1024;
@@ -37,4 +38,5 @@ private:
 	float ambientStrength, specularStrength, diffuseStrength, shininess;
 	std::vector<glm::vec3> targetPositionSet;
 	std::vector<glm::vec3> barrierPositionSet;
+	std::vector<glm::mat4> barrierModelList;
 };
