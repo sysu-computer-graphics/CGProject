@@ -43,10 +43,10 @@ void PhysicsEngine::collisionDetect(std::list<Target>& targetsList)
 	}
 }
 
-bool PhysicsEngine::hasCollision(Target * target)
+bool PhysicsEngine::hasCollision(SceneController * sceneController)
 {
 	for (auto it_bullet : Controler::getInstance()->bulletManager->getBulletLists()) {
-		if (getDistance(target->getPosition(), it_bullet->getPosition()) < PhysicsEngine::thresholdDistance) {
+		if (getDistance(sceneController->getTargetPosition(), it_bullet->getPosition()) < PhysicsEngine::thresholdDistance) {
 			Controler::getInstance()->bulletManager->deleteBullet(it_bullet->id);
 			return true;
 		}

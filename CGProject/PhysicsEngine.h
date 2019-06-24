@@ -6,6 +6,7 @@
 #include <list>
 #include <math.h>
 #include "Controler.h"
+#include "SceneController.h"
 
 class PhysicsEngine
 {
@@ -15,7 +16,7 @@ public:
 
 	static double getDistance(const glm::vec3 &p0, const glm::vec3 &p1);
 	static void collisionDetect(std::list<Target> &targetsList);
-	static bool hasCollision(Target *target);
+	static bool hasCollision(SceneController * sceneController);
 
 private:
 	static const double thresholdDistance;

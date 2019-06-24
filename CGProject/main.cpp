@@ -11,6 +11,7 @@
 #include "Target.h"
 #include "FontRenderer.h"
 #include "PhysicsEngine.h"
+#include "SceneController.h"
 
 float radians = 0.0f;
 //target position
@@ -45,17 +46,18 @@ int main()
 	glm::mat4 staticViewMat = Controler::getInstance()->camera.getViewMatrix();
 
 	//scene
-	CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	scene.setModelMatrix(model);
+	//CGModel scene("resources/model/johnny_carinos/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	//model = glm::mat4(1.0f);
+	//model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
+	//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	//scene.setModelMatrix(model);
 
 	Model bulletModel("resources/model/bullet/scene.gltf");
 	Player *player = Player::getInstance();
-	Target *target = new Target(targetPos);
+	//Target *target = new Target(targetPos);
+	SceneController::getInstance()->init();
 
 	int score = 0;
 	/******************************** Render Loop ****************************************/
@@ -85,12 +87,12 @@ int main()
 		glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);
 		glm::mat4 view = Controler::camera.getViewMatrix();
 
-		if (PhysicsEngine::hasCollision(target)) {
+		if (PhysicsEngine::hasCollision(SceneController::getInstance())) {
 			// 检测到与子弹有碰撞时，分数加一，target的位置随机改变
 			score++;
-			target->setPosition(glm::vec3(rand() % 20, 4.0f, rand() % 20));
+			SceneController::getInstance()->setTargetPosition(glm::vec3(rand() % 20, 4.0f, rand() % 20));
 		}
-		target->render(projection, view);
+		SceneController::getInstance()->render(projection, view);
 
 		glViewport(0, 0, Controler::getInstance()->getScrWidth(), Controler::getInstance()->getScrHeight());
 
@@ -100,7 +102,7 @@ int main()
 
 
 		/*************************** model render **********************************/
-		scene.render(projection, view);
+		//scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}

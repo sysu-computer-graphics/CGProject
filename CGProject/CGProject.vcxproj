@@ -144,6 +144,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneController.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Target.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SceneController.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Target.h" />

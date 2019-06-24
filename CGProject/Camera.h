@@ -68,5 +68,5 @@ private:
 
 	// Calculates the front vector from the Camera's (updated) Euler Angles
 	void updateCameraVectors();
-	bool isNowInBoundary();
+	bool isNowInBoundary(std::vector<glm::vec2> boundary);
 };
