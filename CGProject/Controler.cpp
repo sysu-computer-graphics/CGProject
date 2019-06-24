@@ -2,7 +2,7 @@
 
 #include "Player.h"
 
-// ¾²Ì¬±äÁ¿
+// é™æ€å˜é‡?
 Controler* Controler::instance = nullptr;
 
 Camera Controler::camera;
@@ -18,7 +18,7 @@ Controler::Controler()
 
 Controler::~Controler()
 {
-	// µ±äÖÈ¾Ñ­»·½áÊøºóÎÒÃÇÐèÒªÕýÈ·ÊÍ·Å/É¾³ýÖ®Ç°µÄ·ÖÅäµÄËùÓÐ×ÊÔ´
+	// å½“æ¸²æŸ“å¾ªçŽ¯ç»“æŸåŽæˆ‘ä»¬éœ€è¦æ­£ç¡®é‡Šæ”?åˆ é™¤ä¹‹å‰çš„åˆ†é…çš„æ‰€æœ‰èµ„æº?
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	window = nullptr;
@@ -37,23 +37,23 @@ Controler::~Controler()
 
 GLuint Controler::loadTexture(std::string path)
 {
-	//ÎÆÀí
+	//çº¹ç†
 	unsigned int texture = 0;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	//»·ÈÆ·½Ê½£º¾µÏñÖØ¸´
+	//çŽ¯ç»•æ–¹å¼ï¼šé•œåƒé‡å¤?
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-	//ÎÆÀí¹ýÂË£ºËõÐ¡Ê±Ê¹ÓÃ×î½üÁÚ£¬·Å´óÊ±Ê¹ÓÃÏßÐÔ·½Ê½
+	//çº¹ç†è¿‡æ»¤ï¼šç¼©å°æ—¶ä½¿ç”¨æœ€è¿‘é‚»ï¼Œæ”¾å¤§æ—¶ä½¿ç”¨çº¿æ€§æ–¹å¼?
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//¼ÓÔØÍ¼Æ¬
+	//åŠ è½½å›¾ç‰‡
 	int pic_width, pic_height, nrChannels;
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(path.c_str(), &pic_width, &pic_height, &nrChannels, 0);
-	//Éú³ÉÎÆÀí
+	//ç”Ÿæˆçº¹ç†
 	if (data) {
-		//°ÑÎÆÀíÖ¸¶¨ÎªÒ»¸ösRGBÎÆÀí(ÓÃÓÚgammaÐ£Õý),OpenGL½«×Ô¶¯°ÑÑÕÉ«Ð£Õýµ½ÏßÐÔ¿Õ¼äÖÐ
+		//æŠŠçº¹ç†æŒ‡å®šä¸ºä¸€ä¸ªsRGBçº¹ç†(ç”¨äºŽgammaæ ¡æ­£),OpenGLå°†è‡ªåŠ¨æŠŠé¢œè‰²æ ¡æ­£åˆ°çº¿æ€§ç©ºé—´ä¸­
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, pic_width, pic_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -97,9 +97,9 @@ Controler * Controler::getInstance()
 }
 
 /**
- * ³õÊ¼»¯GLFW, glad, ImGui, ±àÒëshader, ÒÔ¼°×¢²á¸÷ÖÖ»Øµ÷º¯Êý
- * @param scr_width ´°¿Ú¿í¶È
- * @param scr_height ´°¿Ú¸ß¶È
+ * åˆå§‹åŒ–GLFW, glad, ImGui, ç¼–è¯‘shader, ä»¥åŠæ³¨å†Œå„ç§å›žè°ƒå‡½æ•°
+ * @param scr_width çª—å£å®½åº¦
+ * @param scr_height çª—å£é«˜åº¦
  * @return if success, true will be returned
  */
 bool Controler::init(const int scr_width, const int scr_height)
@@ -112,16 +112,16 @@ bool Controler::init(const int scr_width, const int scr_height)
 	Controler::lastY = scr_height / 2.0f;
 	Controler::firstMouse = true;
 
-	glfwInit();	// ³õÊ¼»¯GLFW
+	glfwInit();	// åˆå§‹åŒ–GLFW
 
-	// ¸æËßGLFWÎÒÃÇÒªÊ¹ÓÃµÄOpenGL°æ±¾ÊÇ3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);	// Ö÷°æ±¾ºÅ(Major)ÉèÎª3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);	// ´Î°æ±¾ºÅ(Minor)ÉèÎª3
+	// å‘Šè¯‰GLFWæˆ‘ä»¬è¦ä½¿ç”¨çš„OpenGLç‰ˆæœ¬æ˜?.3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);	// ä¸»ç‰ˆæœ¬å·(Major)è®¾ä¸º3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);	// æ¬¡ç‰ˆæœ¬å·(Minor)è®¾ä¸º3
 
-	// Ã÷È·¸æËßGLFWÎÒÃÇÊ¹ÓÃµÄÊÇºËÐÄÄ£Ê½(Core-profile)
+	// æ˜Žç¡®å‘Šè¯‰GLFWæˆ‘ä»¬ä½¿ç”¨çš„æ˜¯æ ¸å¿ƒæ¨¡å¼(Core-profile)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// ´°¿ÚµÄ¿íºÍ¸ß×÷ÎªËüµÄÇ°Á½¸ö²ÎÊý, µÚÈý¸ö²ÎÊý±íÊ¾Õâ¸ö´°¿ÚµÄÃû³Æ£¨±êÌâ£©
+	// çª—å£çš„å®½å’Œé«˜ä½œä¸ºå®ƒçš„å‰ä¸¤ä¸ªå‚æ•? ç¬¬ä¸‰ä¸ªå‚æ•°è¡¨ç¤ºè¿™ä¸ªçª—å£çš„åç§°ï¼ˆæ ‡é¢˜ï¼‰
 	this->window = glfwCreateWindow(scr_width, scr_height, "LearnOpenGL", NULL, NULL);
 	if (this->window == NULL) {
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -129,24 +129,24 @@ bool Controler::init(const int scr_width, const int scr_height)
 		return false;
 	}
 
-	// Í¨ÖªGLFW½«ÎÒÃÇ´°¿ÚµÄÉÏÏÂÎÄÉèÖÃÎªµ±Ç°Ïß³ÌµÄÖ÷ÉÏÏÂÎÄ
+	// é€šçŸ¥GLFWå°†æˆ‘ä»¬çª—å£çš„ä¸Šä¸‹æ–‡è®¾ç½®ä¸ºå½“å‰çº¿ç¨‹çš„ä¸»ä¸Šä¸‹æ–?
 	glfwMakeContextCurrent(this->window);
 	glfwSwapInterval(1); // Enable vsync
 
-	// ÔÚµ÷ÓÃÈÎºÎOpenGLµÄº¯ÊýÖ®Ç°ÎÒÃÇÐèÒª³õÊ¼»¯GLAD
+	// åœ¨è°ƒç”¨ä»»ä½•OpenGLçš„å‡½æ•°ä¹‹å‰æˆ‘ä»¬éœ€è¦åˆå§‹åŒ–GLAD
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return false;
 	}
 
-	// ×¢²á¸÷ÖÖ»Øµ÷º¯Êý
+	// æ³¨å†Œå„ç§å›žè°ƒå‡½æ•°
 	glfwSetFramebufferSizeCallback(this->window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(this->window, mouse_callback);
 	glfwSetScrollCallback(this->window, scroll_callback);
 	glfwSetMouseButtonCallback(this->window, mouse_button_callback);
 	glfwSetKeyCallback(this->window, key_callback);
 
-	// ³õÊ¼»¯ImGui
+	// åˆå§‹åŒ–ImGui
 	Controler::initImGui(Controler::getInstance()->window);
 	
 	this->simpleDepthShader = new Shader("GLSL/SimpleDepthShader.vs", "GLSL/SimpleDepthShader.fs");
@@ -167,7 +167,7 @@ void Controler::resetCamera()
 }
 
 /**
- * ³õÊ¼»¯ImGui
+ * åˆå§‹åŒ–ImGui
  * @param t_window GLFWwindow
  * @return void
  */
@@ -206,22 +206,22 @@ void Controler::freeImGui()
 
 void Controler::processInput(GLFWwindow * window)
 {
-	// °´esc¼ü£¬¹Ø±Õ´°¿Ú
+	// æŒ‰escé”®ï¼Œå…³é—­çª—å£
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
 
 	if (!Controler::camera.isLock) {
 		Player * player = Player::getInstance();
-		// ¼üÅÌ W S A D ¿ØÖÆÍæ¼Ò½ÇÉ«ÒÆ¶¯
+		// é”®ç›˜ W S A D æŽ§åˆ¶çŽ©å®¶è§’è‰²ç§»åŠ¨
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) player->onKeyDown(Camera::FORWARD, deltaTime);
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
 
-		// ¿Õ¸ñ¼ü£¬ÌøÆð
+		// ç©ºæ ¼é”®ï¼Œè·³èµ·
 		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !player->isJumping) player->onSpaceKeyDownJump();
 	}
 
-	// °´×óctrl¼ü£¬½øÈëÉÏµÛÊÓ½Ç
+	// æŒ‰å·¦ctrlé”®ï¼Œè¿›å…¥ä¸Šå¸è§†è§’
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && !Controler::camera.isLock) {
 		if (!Controler::camera.isLock) {
 			Controler::camera.isLock = true;
@@ -233,7 +233,7 @@ void Controler::processInput(GLFWwindow * window)
 		Controler::camera.isLock = false;
 	}
 
-	// °´1¼ü£¬ÏÔÊ¾Êó±ê£»°´2¼ü£¬Òþ²ØÊó±ê
+	// æŒ?é”®ï¼Œæ˜¾ç¤ºé¼ æ ‡ï¼›æŒ‰2é”®ï¼Œéšè—é¼ æ ‡
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
@@ -248,7 +248,7 @@ void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int he
 void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 {
 	if (Controler::camera.isLock) return;
-	// Êó±ê¿ØÖÆÏà»úÒÆ¶¯
+	// é¼ æ ‡æŽ§åˆ¶ç›¸æœºç§»åŠ¨
 	if (Controler::firstMouse) {
 		Controler::lastX = (float)xpos;
 		Controler::lastY = (float)ypos;
@@ -264,7 +264,7 @@ void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 
 void Controler::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	// Êó±ê¹öÂÖ¸Ä±äÏà»úµÄÊÓÒ°(field of view, fov)
+	// é¼ æ ‡æ»šè½®æ”¹å˜ç›¸æœºçš„è§†é‡?field of view, fov)
 	camera.processMouseScroll((float)yoffset);
 }
 

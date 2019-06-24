@@ -18,10 +18,10 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
 	this->worldUp = up;
 	this->yaw = yaw;
 	this->pitch = pitch;
-	this->activeBoundary.push_back(glm::vec2(40.0f, 105.0f));
-	this->activeBoundary.push_back(glm::vec2(-96.0f, -55.0f));
-	this->activeBoundary.push_back(glm::vec2(-30.0f, -156.0f));
-	this->activeBoundary.push_back(glm::vec2(130.0f, 37.0f));
+	this->activeBoundary.push_back(glm::vec2(-50.0f, -50.0f));
+	this->activeBoundary.push_back(glm::vec2(-50.0f, 50.0f));
+	this->activeBoundary.push_back(glm::vec2(50.0f, 50.0f));
+	this->activeBoundary.push_back(glm::vec2(50.0f, -50.0f));
 
 	this->init_position = position;
 	this->init_up = up;
@@ -95,15 +95,15 @@ glm::mat4 Camera::getViewMatrix() const
 	return glm::lookAt(position, position + front, up);
 }
 
-bool Camera::isNowInBoundary() {
-	float a = (activeBoundary[1][0] - activeBoundary[0][0]) * (position[2] - activeBoundary[0][1])
-		- (activeBoundary[1][1] - activeBoundary[0][1]) * (position[0] - activeBoundary[0][0]);
-	float b = (activeBoundary[2][0] - activeBoundary[1][0]) * (position[2] - activeBoundary[1][1])
-		- (activeBoundary[2][1] - activeBoundary[1][1]) * (position[0] - activeBoundary[1][0]);
-	float c = (activeBoundary[3][0] - activeBoundary[2][0]) * (position[2] - activeBoundary[2][1])
-		- (activeBoundary[3][1] - activeBoundary[2][1]) * (position[0] - activeBoundary[2][0]);
-	float d = (activeBoundary[0][0] - activeBoundary[3][0]) * (position[2] - activeBoundary[3][1])
-		- (activeBoundary[0][1] - activeBoundary[3][1]) * (position[2] - activeBoundary[3][0]);
+bool Camera::isNowInBoundary(std::vector<glm::vec2> boundary) {
+	float a = (boundary[1][0] - boundary[0][0]) * (position[2] - boundary[0][1])
+		- (boundary[1][1] - boundary[0][1]) * (position[0] - boundary[0][0]);
+	float b = (boundary[2][0] - boundary[1][0]) * (position[2] - boundary[1][1])
+		- (boundary[2][1] - boundary[1][1]) * (position[0] - boundary[1][0]);
+	float c = (boundary[3][0] - boundary[2][0]) * (position[2] - boundary[2][1])
+		- (boundary[3][1] - boundary[2][1]) * (position[0] - boundary[2][0]);
+	float d = (boundary[0][0] - boundary[3][0]) * (position[2] - boundary[3][1])
+		- (boundary[0][1] - boundary[3][1]) * (position[2] - boundary[3][0]);
 
 	if ((a > 0 && b > 0 && c > 0 && d > 0) || (a < 0 && b < 0 && c < 0 && d < 0)) {
 		return true;
@@ -122,7 +122,7 @@ void Camera::processKeyBoard(const CameraMovement direction, const float deltaTi
 	if (direction == LEFT) position -= tempRight * velocity;
 	if (direction == RIGHT) position += tempRight * velocity;
 
-	if (!isNowInBoundary()) {
+	if (!isNowInBoundary(this->activeBoundary)) {
 		if (direction == FORWARD) position -= tempFront * velocity;
 		if (direction == BACKWARD) position += tempFront * velocity;
 		if (direction == LEFT) position += tempRight * velocity;
