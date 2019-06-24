@@ -24,7 +24,7 @@ private:
 	float angle;
 	GLuint cubeVAO, cubeVBO;
 	GLuint planeVAO, planeVBO;
-	GLuint groundTexture, targetTexture;
+	GLuint groundTexture, targetTexture, barrierTexture;
 
 	CGModel* Muwu;
 

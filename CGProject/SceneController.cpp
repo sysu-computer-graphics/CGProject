@@ -110,6 +110,7 @@ void SceneController::init() {
 
 	groundTexture = Controler::loadTexture("resources/picture/plane.jpg");
 	targetTexture = Controler::loadTexture("resources/picture/pic.png");
+	barrierTexture = Controler::loadTexture("resources/picture/barrier.jpg");
 
 	depthMap = Controler::getInstance()->depthMap;
 	depthMapFBO = Controler::getInstance()->depthMapFBO;
@@ -288,6 +289,10 @@ void SceneController::renderScene(Shader* renderShader) {
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, barrierTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
 	for (int i = 0; i < barrierPositionSet.size(); ++i) {
 		renderShader->setMat4("model", barrierModelList[i]);
 		glBindVertexArray(cubeVAO);
