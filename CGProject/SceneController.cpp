@@ -21,25 +21,62 @@ SceneController* SceneController::getInstance() {
 	return instance;
 }
 
+void SceneController::initData() {
+	// 目标位置 14个
+	targetPositionSet.push_back(glm::vec3(30.0f, 4.0f, -50.0f));
+	targetPositionSet.push_back(glm::vec3(80.0f, 4.0f, -50.0f));
+	targetPositionSet.push_back(glm::vec3(45.0f, 4.0f, -80.0f));
+	targetPositionSet.push_back(glm::vec3(60.0f, 4.0f, -80.0f));
+	targetPositionSet.push_back(glm::vec3(-50.0f, 4.0f, -50.0f));
+	targetPositionSet.push_back(glm::vec3(30.0f, 4.0f, -50.0f));
+	targetPositionSet.push_back(glm::vec3(-30.0f, 4.0f, 0.0f));
+	targetPositionSet.push_back(glm::vec3(30.0f, 4.0f, 0.0f));
+	targetPositionSet.push_back(glm::vec3(-30.0f, 4.0f, 50.0f));
+	targetPositionSet.push_back(glm::vec3(-80.0f, 4.0f, 50.0f));
+	targetPositionSet.push_back(glm::vec3(30.0f, 4.0f, -20.0f));
+	targetPositionSet.push_back(glm::vec3(7.0f, 4.0f, 60.0f));
+	targetPositionSet.push_back(glm::vec3(40.0f, 4.0f, -40.0f));
+	targetPositionSet.push_back(glm::vec3(-10.0f, 4.0f, -50.0f));
+
+	// 障碍
+	for (int i = 0; i < targetPositionSet.size(); i++) {
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(-6.0f, 0.0f, 0.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(8.0f, 0.0f, 0.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(0.0f, 0.0f, -4.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(0.0f, 0.0f, 8.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(5.0f, 0.0f, 6.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(-5.0f, 0.0f, -5.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(3.0f, 0.0f, -5.0f));
+		barrierPositionSet.push_back(targetPositionSet[i] + glm::vec3(-5.0f, 0.0f, 5.0f));
+	}
+}
+
 void SceneController::init() {
 
-	glm::mat4 model = glm::mat4(1.0f);
+	//glm::mat4 model = glm::mat4(1.0f);
 
-	Muwu = new CGModel("resources/model/Muwu/Muwu.obj", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	Muwu->setModelMatrix(model);
+	//Muwu = new CGModel("resources/model/hercules_at_rest/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	//model = glm::translate(model, glm::vec3(30.0f, 30.0f, 0.0f));
+	//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::translate(model, glm::vec3(0.0f, -0.25f, 0.0f));
+	//model = glm::translate(model, glm::vec3(30.0f, 30.0f, 0.0f));
+	
+	//Muwu->setModelMatrix(model);
+
+	initData();
 
 	simpleDepthShader = Controler::getInstance()->simpleDepthShader;
 	shader = Controler::getInstance()->shadowMappingShader;
 	debugDepthQuad = Controler::getInstance()->debugDepthQuadShader;
 
 	GLfloat planeVertices[] = {
-		50.0f, -0.5f, 50.0f, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
-		-50.0f, -0.5f, -50.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f,
-		-50.0f, -0.5f, 50.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		100.0, -0.5f, 100.0, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
+		-100.0, -0.5f, -100.0, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f,
+		-100.0, -0.5f, 100.0, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
 
-		50.0f, -0.5f, 50.0f, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
-		50.0f, -0.5f, -50.0f, 0.0f, 1.0f, 0.0f, 5.0f, 5.0f,
-		-50.0f, -0.5f, -50.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f
+		100.0, -0.5f, 100.0, 0.0f, 1.0f, 0.0f, 5.0f, 0.0f,
+		100.0, -0.5f, -100.0, 0.0f, 1.0f, 0.0f, 5.0f, 5.0f,
+		-100.0, -0.5f, -100.0, 0.0f, 1.0f, 0.0f, 0.0f, 5.0f
 	};
 
 	//plane
@@ -141,7 +178,7 @@ void SceneController::init() {
 	shininess = 32.0f;
 
 	this->angle = 0.0f;
-	this->targetPosition = glm::vec3(0.0f, 5.0f, 0.0f);
+	this->targetPosition = targetPositionSet[rand()%14];
 
 }
 
@@ -151,7 +188,7 @@ void SceneController::render(glm::mat4 projection, glm::mat4 view) {
 	//渲染深度图
 	GLfloat near_plane = 0.1f, far_plane = 200.0f;
 	glm::mat4 lightProjection = glm::mat4(1.0f);
-	lightProjection = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, near_plane, far_plane);
+	lightProjection = glm::ortho(-70.0f, 70.0f, -70.0f, 70.0f, near_plane, far_plane);
 	glm::mat4 lightView = glm::lookAt(Controler::lightPos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 	simpleDepthShader->use();
@@ -230,7 +267,7 @@ void SceneController::renderScene(Shader* renderShader) {
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, targetPosition);
-	model = glm::translate(model, glm::vec3(0.0f, -0.5f, 0.0f));
+	model = glm::translate(model, glm::vec3(0.0f, 1.8f, 0.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(this->angle), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -238,4 +275,14 @@ void SceneController::renderScene(Shader* renderShader) {
 	glBindVertexArray(cubeVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+
+	for (int i = 0; i < barrierPositionSet.size(); ++i) {
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, barrierPositionSet[i]);
+		model = glm::translate(model, glm::vec3(0.0f, 1.8f, 0.0f));
+		renderShader->setMat4("model", model);
+		glBindVertexArray(cubeVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+	}
 }

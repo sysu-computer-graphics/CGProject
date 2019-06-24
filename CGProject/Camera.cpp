@@ -18,10 +18,10 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
 	this->worldUp = up;
 	this->yaw = yaw;
 	this->pitch = pitch;
-	this->activeBoundary.push_back(glm::vec2(-50.0f, -50.0f));
-	this->activeBoundary.push_back(glm::vec2(-50.0f, 50.0f));
-	this->activeBoundary.push_back(glm::vec2(50.0f, 50.0f));
-	this->activeBoundary.push_back(glm::vec2(50.0f, -50.0f));
+	this->activeBoundary.push_back(glm::vec2(-100.0, -100.0));
+	this->activeBoundary.push_back(glm::vec2(-100.0, 100.0));
+	this->activeBoundary.push_back(glm::vec2(100.0, 100.0));
+	this->activeBoundary.push_back(glm::vec2(100.0, -100.0));
 
 	this->init_position = position;
 	this->init_up = up;

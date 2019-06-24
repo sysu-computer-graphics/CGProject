@@ -45,13 +45,13 @@ int main()
 
 
 	//scene
-	CGModel scene("resources/model/hercules_at_rest/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
-	model = glm::mat4(1.0f);
+	//CGModel scene("resources/model/hercules_at_rest/scene.gltf", "GLSL/model_loading.vs", "GLSL/model_loading.fs");
+	//model = glm::mat4(1.0f);
 	//model = glm::translate(model, glm::vec3(24.0f, 78.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	scene.setModelMatrix(model);
+	//scene.setModelMatrix(model);
 
 	Model bulletModel("resources/model/bullet/scene.gltf");
 	Player *player = Player::getInstance();
@@ -89,7 +89,7 @@ int main()
 		if (PhysicsEngine::hasCollision(SceneController::getInstance())) {
 			// 检测到与子弹有碰撞时，分数加一，target的位置随机改变
 			score++;
-			SceneController::getInstance()->setTargetPosition(glm::vec3(rand() % 20, 4.0f, rand() % 20));
+			SceneController::getInstance()->setTargetPosition(rand() % 14);
 		}
 		SceneController::getInstance()->render(projection, view);
 
@@ -101,7 +101,7 @@ int main()
 
 
 		/*************************** model render **********************************/
-		scene.render(projection, view);
+		//scene.render(projection, view);
 		if (!Controler::camera.isLock) {
 			player->render(staticViewMat);
 		}
