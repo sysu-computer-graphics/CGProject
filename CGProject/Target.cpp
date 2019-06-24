@@ -92,14 +92,15 @@ void Target::render(glm::mat4 projection, glm::mat4 view)
 void Target::renderScene(Shader* renderShader) {
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, position);
+	
+	model = glm::translate(model, glm::vec3(0.0f, -2.5f, 0.0f));
 	renderShader->setMat4("model", model);
-	/*glBindVertexArray(planeVAO);
+	glBindVertexArray(planeVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);*/
+	glBindVertexArray(0);
 
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, position);
-	model = glm::translate(model, glm::vec3(0.0f, -0.5f, 0.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(this->angle), glm::vec3(0.0f, 0.0f, 1.0f));
