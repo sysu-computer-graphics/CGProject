@@ -17,9 +17,11 @@ public:
 	static double getDistance(const glm::vec3 &p0, const glm::vec3 &p1);
 	static void collisionDetect(std::list<Target> &targetsList);
 	static bool hasCollision(SceneController * sceneController);
+	static bool hasCollisionBarrier(SceneController * sceneController);
 
 private:
 	static const double thresholdDistance;
+	static const double thresholdBarrierDistance;
 	static PhysicsEngine* instance;
 
 	PhysicsEngine();

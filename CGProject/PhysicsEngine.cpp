@@ -3,6 +3,8 @@
 // æ≤Ã¨±‰¡ø
 PhysicsEngine* PhysicsEngine::instance = nullptr;
 const double PhysicsEngine::thresholdDistance = 1.7;
+const double PhysicsEngine::thresholdBarrierDistance = 1.5;
+
 
 PhysicsEngine::PhysicsEngine()
 {
@@ -41,6 +43,7 @@ void PhysicsEngine::collisionDetect(std::list<Target>& targetsList)
 			it++;
 		}
 	}
+
 }
 
 bool PhysicsEngine::hasCollision(SceneController * sceneController)
@@ -50,6 +53,22 @@ bool PhysicsEngine::hasCollision(SceneController * sceneController)
 			Controler::getInstance()->bulletManager->deleteBullet(it_bullet->id);
 			return true;
 		}
+	}
+	return false;
+}
+
+bool PhysicsEngine::hasCollisionBarrier(SceneController * sceneController)
+{
+	for (auto it_bullet : Controler::getInstance()->bulletManager->getBulletLists()) {
+		std::vector<glm::vec3> barrierPostions = sceneController->getBarrierPositions();
+		for (int i = 0; i < barrierPostions.size(); i++) {
+			glm::vec3 barrierPosition = barrierPostions[i];
+			if (getDistance(barrierPosition, it_bullet->getPosition()) < PhysicsEngine::thresholdBarrierDistance) {
+				Controler::getInstance()->bulletManager->deleteBullet(it_bullet->id);
+				return true;
+			}
+		}
+		
 	}
 	return false;
 }

@@ -14,6 +14,7 @@ public:
 	glm::vec3 getTargetPosition() { return targetPosition; }
 	void setTargetPosition(int pos) { this->targetPosition = this->targetPositionSet[pos]; }
 	static SceneController* getInstance();
+	std::vector<glm::vec3> getBarrierPositions() { return barrierPositionSet; }
 	void init();
 private:
 	static SceneController* instance;

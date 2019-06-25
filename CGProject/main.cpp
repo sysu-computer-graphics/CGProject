@@ -19,6 +19,8 @@ glm::vec3 targetPos = glm::vec3(9.0f, 1.8f, 4.5f);
 
 glm::vec3 Controler::lightPos = glm::vec3(100.0f, 100.0f, -50.0f);
 
+int barrierHint = 0;
+
 int main()
 {
 	/******************************** Initializations ************************************/
@@ -30,7 +32,7 @@ int main()
 	//glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// initial font renderer
-	/*FontRenderer::getInstance()->init();*/
+	FontRenderer::getInstance()->init();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -91,6 +93,14 @@ int main()
 			score++;
 			SceneController::getInstance()->setTargetPosition(rand() % 14);
 		}
+		if (PhysicsEngine::hasCollisionBarrier(SceneController::getInstance())) {
+			// 检测到与障碍物有碰撞三次时，分数减一
+			barrierHint++;
+			if (barrierHint == 3) {
+				score--;
+				barrierHint = 0;
+			}
+		}
 		SceneController::getInstance()->render(projection, view);
 
 		glViewport(0, 0, Controler::getInstance()->getScrWidth(), Controler::getInstance()->getScrHeight());
@@ -112,9 +122,9 @@ int main()
 		Controler::renderImGui();
 
 		// text render example
-		/*FontRenderer::getInstance()->RenderText(std::string("Total Hits: ") + std::to_string(score), 10.0f, 10.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
-		FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
-*/
+		FontRenderer::getInstance()->RenderText(std::string("Total Hits: ") + std::to_string(score), 10.0f, 10.0f, 0.5f, glm::vec3(1.0, 0.0f, 0.0f));
+		//FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+
 		glfwSwapBuffers(Controler::getInstance()->window);
 		glfwPollEvents();
 	}

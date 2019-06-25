@@ -280,7 +280,6 @@ void SceneController::renderScene(Shader* renderShader) {
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, targetPosition);
-	model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(this->angle), glm::vec3(0.0f, 0.0f, 1.0f));
