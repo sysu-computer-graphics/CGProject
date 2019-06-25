@@ -15,6 +15,8 @@ public:
 	void setTargetPosition(int pos) { this->targetPosition = this->targetPositionSet[pos]; }
 	static SceneController* getInstance();
 	std::vector<glm::vec3> getBarrierPositions() { return barrierPositionSet; }
+	std::vector<float> getBarrierSizeSet() { return barrierSizeSet; }
+	std::vector<glm::vec3> getBarrierNewPositions() { return barrierNewPositions; }
 	void init();
 private:
 	static SceneController* instance;
@@ -38,6 +40,9 @@ private:
 	Shader* debugDepthQuad;
 	float ambientStrength, specularStrength, diffuseStrength, shininess;
 	std::vector<glm::vec3> targetPositionSet;
+
+	std::vector<glm::vec3> barrierNewPositions;
+	std::vector<float> barrierSizeSet;	// 障碍物的大小
 	std::vector<glm::vec3> barrierPositionSet;
 	std::vector<glm::mat4> barrierModelList;
 };

@@ -53,10 +53,12 @@ void SceneController::initData() {
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, barrierPositionSet[i*8 + j] );
 			model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+			barrierNewPositions.push_back(barrierPositionSet[i * 8 + j] + glm::vec3(0.0f, 2.0f, 0.0f));
 			model = glm::rotate(model, glm::radians((float)(rand() % 90)), glm::vec3(0.0f, 0.0f, 1.0f));
 			model = glm::rotate(model, glm::radians((float)(rand() % 90)), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::rotate(model, glm::radians((float)(rand() % 90)), glm::vec3(1.0f, 0.0f, 0.0f));
 			float temp = (float)(rand() % 150) / 100.0f + 0.3;
+			barrierSizeSet.push_back(temp);
 			model = glm::scale(model, glm::vec3(temp, temp, temp));
 			barrierModelList.push_back(model);
 		}

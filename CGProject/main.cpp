@@ -128,7 +128,9 @@ int main()
 			// 检测到与障碍物有碰撞三次时，分数减一
 			barrierHint++;
 			if (barrierHint == 3) {
-				score--;
+				if (score > 0) {
+					score--;
+				}
 				barrierHint = 0;
 			}
 		}

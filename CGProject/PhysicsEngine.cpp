@@ -60,10 +60,12 @@ bool PhysicsEngine::hasCollision(SceneController * sceneController)
 bool PhysicsEngine::hasCollisionBarrier(SceneController * sceneController)
 {
 	for (auto it_bullet : Controler::getInstance()->bulletManager->getBulletLists()) {
-		std::vector<glm::vec3> barrierPostions = sceneController->getBarrierPositions();
-		for (int i = 0; i < barrierPostions.size(); i++) {
-			glm::vec3 barrierPosition = barrierPostions[i];
-			if (getDistance(barrierPosition, it_bullet->getPosition()) < PhysicsEngine::thresholdBarrierDistance) {
+		//std::vector<glm::vec3> barrierPostions = sceneController->getBarrierPositions();
+		std::vector<glm::vec3> newBarrierPositions = sceneController->getBarrierNewPositions();
+		std::vector<float> barrierSizes = sceneController->getBarrierSizeSet();
+		for (int i = 0; i < newBarrierPositions.size(); i++) {
+			glm::vec3 barrierPosition = newBarrierPositions[i];
+			if (getDistance(barrierPosition, it_bullet->getPosition()) < barrierSizes[i] * PhysicsEngine::thresholdBarrierDistance) {
 				Controler::getInstance()->bulletManager->deleteBullet(it_bullet->id);
 				return true;
 			}
