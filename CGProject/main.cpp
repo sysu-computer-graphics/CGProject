@@ -27,10 +27,10 @@ int main()
 	bool show_demo_window = false;
 
 	// display cursor
-	//glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// initial font renderer
-	/*FontRenderer::getInstance()->init();*/
+	FontRenderer::getInstance()->init();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -112,9 +112,9 @@ int main()
 		Controler::renderImGui();
 
 		// text render example
-		/*FontRenderer::getInstance()->RenderText(std::string("Total Hits: ") + std::to_string(score), 10.0f, 10.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
-		FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
-*/
+		FontRenderer::getInstance()->RenderText(std::string("Total Hits: ") + std::to_string(score), 10.0f, 10.0f, 0.5f, glm::vec3(1.0f,0.0f, 0.0f));
+		FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(1.0f, 1.0f, 0.0f));
+
 		glfwSwapBuffers(Controler::getInstance()->window);
 		glfwPollEvents();
 	}
