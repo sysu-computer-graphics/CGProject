@@ -17,7 +17,7 @@ float radians = 0.0f;
 //target position
 glm::vec3 targetPos = glm::vec3(9.0f, 1.8f, 4.5f);
 
-glm::vec3 Controler::lightPos = glm::vec3(100.0f, 100.0f, -50.0f);
+glm::vec3 Controler::lightPos = glm::vec3(100.0f, 50.0f, 0.0f);
 
 int barrierHint = 0;
 
