@@ -99,7 +99,7 @@ void Bullet::render(Model &bulletModel, const glm::vec3 &_lightPos) {
 
 	// 如果子弹离玩家角色距离很远很远 自动回收
 	float distance = glm::distance(this->position, Player::getInstance()->getPosition());
-	if (distance > 1000)
+	if (distance > 10000)
 		Controler::getInstance()->bulletManager->deleteBullet(this->id);
 
 
