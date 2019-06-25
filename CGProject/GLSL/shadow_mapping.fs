@@ -59,6 +59,7 @@ void main()
 {
     //FragColor = vec4(1.0); // set alle 4 vector values to 1.0
 	vec3 color = texture(material.diffuseTexture, fs_in.TexCoords).rgb;
+	
 	vec3 norm = normalize(fs_in.Normal);
 
 	vec3 ambient = ambientStrength * lightColor;

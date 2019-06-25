@@ -29,7 +29,7 @@ int main()
 	bool show_demo_window = false;
 
 	// display cursor
-	//glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(Controler::getInstance()->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// initial font renderer
 	FontRenderer::getInstance()->init();
