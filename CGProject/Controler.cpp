@@ -10,7 +10,8 @@ float Controler::deltaTime = 0.0f;
 float Controler::lastFrame = 0.0f;
 float Controler::lastX = 0.0f;
 float Controler::lastY = 0.0f;
-bool Controler::firstMouse = true;
+bool Controler::firstMouse = false;
+bool Controler::isGameOver = false;
 
 Controler::Controler()
 {
@@ -208,7 +209,7 @@ void Controler::processInput(GLFWwindow * window)
 {
 	// 按esc键，关闭窗口
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
-
+	if (Controler::isGameOver) return;
 	if (!Controler::camera.isLock) {
 		Player * player = Player::getInstance();
 		// 键盘 W S A D 控制玩家角色移动
@@ -247,6 +248,7 @@ void Controler::framebuffer_size_callback(GLFWwindow * window, int width, int he
 
 void Controler::mouse_callback(GLFWwindow * window, double xpos, double ypos)
 {
+	if (Controler::isGameOver) return;
 	if (Controler::camera.isLock) return;
 	// 鼠标控制相机移动
 	if (Controler::firstMouse) {
@@ -270,6 +272,7 @@ void Controler::scroll_callback(GLFWwindow * window, double xoffset, double yoff
 
 void Controler::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
 {
+	if (Controler::isGameOver) return;
 	if (action == GLFW_PRESS) {
 		switch (button)
 		{
