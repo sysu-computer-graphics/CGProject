@@ -47,6 +47,8 @@ public:
 	const unsigned int getScrHeight() const { return this->scr_height; };
 
 	static void resetCamera();
+	static bool isGameOver;
+
 
 	/************************* ImGui *************************/
 	// ≥ı ºªØImGui

@@ -22,15 +22,14 @@ glm::vec3 Controler::lightPos = glm::vec3(100.0f, 50.0f, 0.0f);
 int barrierHint = 0;
 
 double limitFPS = 1.0 / 60.0;
-int remainTime = 180;
-bool isEnd = false;
+int remainTime = 60;
 
 void updateRemainTime() {
 	if (remainTime > 0) {
 		remainTime--;
 	}
 	else {
-		isEnd = true;
+		Controler::isGameOver = true;
 	}
 }
 
@@ -116,62 +115,60 @@ int main()
 		/*************************** ImGui render **********************************/
 		Controler::renderImGui();
 
-		if (!isEnd) {
-			// view/projection transformations
-			glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);
-			glm::mat4 view = Controler::camera.getViewMatrix();
+		// view/projection transformations
+		glm::mat4 projection = glm::perspective(glm::radians(Controler::camera.getZoom()), (float)Controler::getInstance()->getScrWidth() / (float)Controler::getInstance()->getScrHeight(), 0.1f, 100.0f);
+		glm::mat4 view = Controler::camera.getViewMatrix();
 
-			if (PhysicsEngine::hasCollision(SceneController::getInstance())) {
-				// 检测到与子弹有碰撞时，分数加一，target的位置随机改变
-				score++;
-				SceneController::getInstance()->setTargetPosition(rand() % 14);
+		if (PhysicsEngine::hasCollision(SceneController::getInstance())) {
+			// 检测到与子弹有碰撞时，分数加一，target的位置随机改变
+			score++;
+			SceneController::getInstance()->setTargetPosition(rand() % 14);
+		}
+		if (PhysicsEngine::hasCollisionBarrier(SceneController::getInstance())) {
+			// 检测到与障碍物有碰撞三次时，分数减一
+			barrierHint++;
+			if (barrierHint == 3) {
+				score--;
+				barrierHint = 0;
 			}
-			if (PhysicsEngine::hasCollisionBarrier(SceneController::getInstance())) {
-				// 检测到与障碍物有碰撞三次时，分数减一
-				barrierHint++;
-				if (barrierHint == 3) {
-					score--;
-					barrierHint = 0;
-				}
-			}
-			SceneController::getInstance()->render(projection, view);
+		}
+		SceneController::getInstance()->render(projection, view);
 
-			glViewport(0, 0, Controler::getInstance()->getScrWidth(), Controler::getInstance()->getScrHeight());
+		glViewport(0, 0, Controler::getInstance()->getScrWidth(), Controler::getInstance()->getScrHeight());
 
-			/*************************** skybox render **********************************/
-			glDepthFunc(GL_LEQUAL);
-			skybox.render(Controler::getInstance()->camera);
+		/*************************** skybox render **********************************/
+		glDepthFunc(GL_LEQUAL);
+		skybox.render(Controler::getInstance()->camera);
 
 
-			/*************************** model render **********************************/
-			//scene.render(projection, view);
-			if (!Controler::camera.isLock) {
-				player->render(staticViewMat);
-			}
-			// 传入bulletModel模型，绘制子弹
-			Controler::getInstance()->bulletManager->render(bulletModel, Controler::lightPos);
+		/*************************** model render **********************************/
+		//scene.render(projection, view);
+		if (!Controler::camera.isLock) {
+			player->render(staticViewMat);
+		}
+		// 传入bulletModel模型，绘制子弹
+		Controler::getInstance()->bulletManager->render(bulletModel, Controler::lightPos);
 
-			/*************************** ImGui render **********************************/
-			Controler::renderImGui();
+		/*************************** ImGui render **********************************/
+		Controler::renderImGui();
 
-			// text render example
-			FontRenderer::getInstance()->RenderText(std::string("Total Hits: ") + std::to_string(score), 10.0f, 10.0f, 0.5f, glm::vec3(1.0, 0.0f, 0.0f));
-			FontRenderer::getInstance()->RenderText(std::string("Remain Time: ") + std::to_string(remainTime), (float)Controler::getInstance()->getScrWidth() / 2 - 100, (float)Controler::getInstance()->getScrHeight() - 40, 0.5f, glm::vec3(1.0, 0.0f, 0.0f));
-			//FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+		// text render example
+		FontRenderer::getInstance()->RenderText(std::string("Total Hits: ") + std::to_string(score), 10.0f, 10.0f, 0.5f, glm::vec3(1.0, 0.0f, 0.0f));
+		FontRenderer::getInstance()->RenderText(std::string("Remain Time: ") + std::to_string(remainTime), (float)Controler::getInstance()->getScrWidth() / 2 - 100, (float)Controler::getInstance()->getScrHeight() - 40, 0.5f, glm::vec3(1.0, 0.0f, 0.0f));
+		//FontRenderer::getInstance()->RenderText("Remain Targets: 20+", 750.0f, 570.0f, 0.5f, glm::vec3(0.5, 0.8f, 0.2f));
+		if (Controler::isGameOver) {
+			FontRenderer::getInstance()->RenderText(std::string("Game Over! "), (float)Controler::getInstance()->getScrWidth() / 2 - 200, (float)Controler::getInstance()->getScrHeight() / 2, 1.5f, glm::vec3(1.0, 0.0f, 0.0f));
+		}
 
-			frames++;
+		frames++;
 
-			// - Reset after one second
-			if (glfwGetTime() - timer > 1.0) {
-				timer++;
-				std::cout << "FPS: " << frames << " Updates:" << updates << std::endl;
-				updates = 0, frames = 0;
-			}
+		// - Reset after one second
+		if (glfwGetTime() - timer > 1.0) {
+			timer++;
+			std::cout << "FPS: " << frames << " Updates:" << updates << std::endl;
+			updates = 0, frames = 0;
+		}
 			
-		}
-		else {
-			FontRenderer::getInstance()->RenderText(std::string("Game Over! "),(float) Controler::getInstance()->getScrWidth() / 2 - 200, (float)Controler::getInstance()->getScrHeight() / 2, 1.5f, glm::vec3(1.0, 0.0f, 0.0f));
-		}
 		glfwSwapBuffers(Controler::getInstance()->window);
 		glfwPollEvents();
 		
