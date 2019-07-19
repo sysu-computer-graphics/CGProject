@@ -169,6 +169,45 @@ for (auto it_bullet : Controler::getInstance()->bulletManager->getBulletLists())
 }
 ```
 
+### 人物活动范围限制
+
+由于场景地面范围有限，人物活动时可能会离开场景。
+
+**解决方法**
+
+增加人物活动范围限制。如下图，设ABCD为四边形的四个顶点。
+
+![](images/sceneControl.png)
+
+若点P在四边形内，则如下公式中，应有a、b、c、d同时大于零。
+
+![](images/formula.png)
+
+在实际场景中，令P为人物的当前位置，则可通过上述原理限制人物活动在场景内。
+
+```c++
+void Camera::processKeyBoard(const CameraMovement direction, const float deltaTime)
+{
+	float velocity = movementSpeed * deltaTime;
+	
+	glm::vec3 tempFront = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
+	glm::vec3 tempRight = glm::normalize(glm::cross(tempFront, worldUp));
+	if (direction == FORWARD) position += tempFront * velocity;
+	if (direction == BACKWARD) position -= tempFront * velocity;
+	if (direction == LEFT) position -= tempRight * velocity;
+	if (direction == RIGHT) position += tempRight * velocity;
+
+	if (!isNowInBoundary(this->activeBoundary)) {
+		if (direction == FORWARD) position -= tempFront * velocity;
+		if (direction == BACKWARD) position += tempFront * velocity;
+		if (direction == LEFT) position += tempRight * velocity;
+		if (direction == RIGHT) position -= tempRight * velocity;
+	}
+}
+```
+
+
+
 ## 小组成员
 
 | 姓名   | 学号     | 分工                                     | Github                            |
