@@ -234,6 +234,45 @@ for (auto it_bullet : Controler::getInstance()->bulletManager->getBulletLists())
 }
 ```
 
+### 人物活动范围限制
+
+由于场景地面范围有限，人物活动时可能会离开场景。
+
+**解决方法**
+
+增加人物活动范围限制。如下图，设ABCD为四边形的四个顶点。
+
+![](images/sceneControl.png)
+
+若点P在四边形内，则如下公式中，应有a、b、c、d同时大于零。
+
+![](images/formula.png)
+
+在实际场景中，令P为人物的当前位置，则可通过上述原理限制人物活动在场景内。
+
+```c++
+void Camera::processKeyBoard(const CameraMovement direction, const float deltaTime)
+{
+	float velocity = movementSpeed * deltaTime;
+	
+	glm::vec3 tempFront = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
+	glm::vec3 tempRight = glm::normalize(glm::cross(tempFront, worldUp));
+	if (direction == FORWARD) position += tempFront * velocity;
+	if (direction == BACKWARD) position -= tempFront * velocity;
+	if (direction == LEFT) position -= tempRight * velocity;
+	if (direction == RIGHT) position += tempRight * velocity;
+
+	if (!isNowInBoundary(this->activeBoundary)) {
+		if (direction == FORWARD) position -= tempFront * velocity;
+		if (direction == BACKWARD) position += tempFront * velocity;
+		if (direction == LEFT) position += tempRight * velocity;
+		if (direction == RIGHT) position -= tempRight * velocity;
+	}
+}
+```
+
+
+
 ## 小组成员
 
 | 姓名   | 学号     | 分工                                     | Github                            |
@@ -249,7 +288,7 @@ for (auto it_bullet : Controler::getInstance()->bulletManager->getBulletLists())
 
 在本次项目中，我主要负责模型的寻找、场景的搭建和处理、多张纹理贴图的处理以及复杂光照的处理。
 
-在光照模型上，我使用了Blinn-Phong光照模型，该模型也是分为环境光、漫反射和镜面反射三个部分。Phong光照模型的镜面反射由人的视角线和反射光的夹角决定，会出现高光断层现象。Blinn-Phong模型对此进行改进，通过计算半程向量，使用视角和半程向量来计算镜面反射，从而解决了高光断层现象。
+在光照模型上，我使用了Blinn-Phong光照模型，该模型也是分为环境光、漫反射和镜面反射三个部分。Phong光照模型的镜面反射由人的视角线和反射光的夹角决定，会出现高光断层现象。Blinn-Phong模型对此进行改进，通过计算半程向量，使用视角和半程向量来计算镜面反射，从而解决了高光断层现象。同时，为显示增加了gamma矫正，gamma值设定为2.2
 
 在场景搭建这部分工作，历程较为曲折。最初计划是搭建一个地表形状复杂，且地表平面具有较多的遮挡物来遮挡住目标，从而使得玩家要去寻找射击的目标。为此我找了一个较为复杂的地形模型，并导入作为场景。但后来发现，因为地表凹凸不平，且遮挡物的形状都很复杂，所以碰撞检测实现难度很高，故放弃了以模型作为场景的想法。后来便以一个平面作为加上贴图作为基本场景，控制目标物体随机在一些位置上出现，同时使用带贴图的正方体作为障碍物，随机生成障碍物来增加玩家寻找目标的难度。同时，通过向量间余弦值的规律，限制玩家的活动范围在地面场景之内。
 
