@@ -41,7 +41,24 @@
 
 #### 摄像机 Camera Roaming
 
-按照 FPS 游戏的方法，使得玩家在场景中的正常移动
+按照 FPS 游戏的方法，使得玩家在场景中的正常移动。主要逻辑是通过监听用户按下的按键触发相应的逻辑：
+
+```
+// 按esc键，关闭窗口
+if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
+if (Controler::isGameOver) return;
+if (!Controler::camera.isLock) {
+	Player * player = Player::getInstance();
+	// 键盘 W S A D 控制玩家角色移动
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) player->onKeyDown(Camera::FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
+
+	// 空格键，跳起
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !player->isJumping) player->onSpaceKeyDownJump();
+}
+```
 
 #### 贴图  Texture mapping 
 
@@ -143,7 +160,22 @@ if (this->isJumping) {
 
 #### 射击 Shotting
 
-鼠标左键能够沿着摄像机朝向(front)发射子弹；通过 BulletManager 管理子弹的创建、运动、销毁；
+鼠标左键能够沿着摄像机朝向(front)发射子弹；通过 BulletManager 管理子弹的创建、运动、销毁；在鼠标监听事件回调中触发射击逻辑，主要是获取用户（等价于摄像机）的front向量、及当前位置，然后调用 `bulletManager` 生成新的子弹实例：
+
+```
+if (action == GLFW_PRESS) {
+	switch (button)
+	{
+	case GLFW_MOUSE_BUTTON_LEFT:
+		glm::vec3 front = Controler::camera.getFrontVec();
+		glm::vec3 pos = Controler::camera.getPosition();
+		Controler::getInstance()->bulletManager->newBullet(front, pos + front * 2.0f);
+		break;
+	default:
+		break;
+	}
+}
+```
 
 #### 天空盒  Sky Box 
 
@@ -161,6 +193,14 @@ glm::mat4 view = glm::mat4(glm::mat3(camera.getViewMatrix()))
 
 ![](images/sky2.png)
 
+#### 倒计时 Text Rendering
+
+使用 FreeType 库加载 .ttf 字体文件，通过 FontRenderer 管理字体加载、相关字符数据保存、渲染调用；主要功能有：
+
+-  加载TrueType字体并为每一个字形生成位图以及计算度量值(Metric)
+-  提取出它生成的位图作为字形的纹理，并使用这些度量值指定每个字符的大小和位置
+
+![](images/text.png)
 
 
 ## 遇到的问题和解决方案
