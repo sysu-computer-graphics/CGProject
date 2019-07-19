@@ -41,7 +41,24 @@
 
 #### 摄像机 Camera Roaming
 
-按照 FPS 游戏的方法，使得玩家在场景中的正常移动
+按照 FPS 游戏的方法，使得玩家在场景中的正常移动。主要逻辑是通过监听用户按下的按键触发相应的逻辑：
+
+```
+// 按esc键，关闭窗口
+if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
+if (Controler::isGameOver) return;
+if (!Controler::camera.isLock) {
+	Player * player = Player::getInstance();
+	// 键盘 W S A D 控制玩家角色移动
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) player->onKeyDown(Camera::FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) player->onKeyDown(Camera::BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) player->onKeyDown(Camera::LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) player->onKeyDown(Camera::RIGHT, deltaTime);
+
+	// 空格键，跳起
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !player->isJumping) player->onSpaceKeyDownJump();
+}
+```
 
 #### 贴图  Texture mapping 
 
@@ -143,7 +160,22 @@ if (this->isJumping) {
 
 #### 射击 Shotting
 
-鼠标左键能够沿着摄像机朝向(front)发射子弹；通过 BulletManager 管理子弹的创建、运动、销毁；
+鼠标左键能够沿着摄像机朝向(front)发射子弹；通过 BulletManager 管理子弹的创建、运动、销毁；在鼠标监听事件回调中触发射击逻辑，主要是获取用户（等价于摄像机）的front向量、及当前位置，然后调用 `bulletManager` 生成新的子弹实例：
+
+```
+if (action == GLFW_PRESS) {
+	switch (button)
+	{
+	case GLFW_MOUSE_BUTTON_LEFT:
+		glm::vec3 front = Controler::camera.getFrontVec();
+		glm::vec3 pos = Controler::camera.getPosition();
+		Controler::getInstance()->bulletManager->newBullet(front, pos + front * 2.0f);
+		break;
+	default:
+		break;
+	}
+}
+```
 
 #### 天空盒  Sky Box 
 
@@ -161,6 +193,14 @@ glm::mat4 view = glm::mat4(glm::mat3(camera.getViewMatrix()))
 
 ![](images/sky2.png)
 
+#### 倒计时 Text Rendering
+
+使用 FreeType 库加载 .ttf 字体文件，通过 FontRenderer 管理字体加载、相关字符数据保存、渲染调用；主要功能有：
+
+-  加载TrueType字体并为每一个字形生成位图以及计算度量值(Metric)
+-  提取出它生成的位图作为字形的纹理，并使用这些度量值指定每个字符的大小和位置
+
+![](images/text.png)
 
 
 ## 遇到的问题和解决方案
@@ -311,3 +351,15 @@ void Camera::processKeyBoard(const CameraMovement direction, const float deltaTi
 ## 个人报告 —— 邵梓硕
 
 在本次项目中我负责的部分有很多是基础功能，虽然是上课的时候就讲过的内容，实际在项目中会根据需求不同，应用的场景不同，实现方式也不同，也会出现不知道怎么实现，出现各种bug的情况，因此即使是基础功能也不是一开始想的一下就能过的简单工作。从项目的初始阶段计划到最后的成品，可以说除了游戏类型之外没什么是一样的，即使一开始计划的内容很好，在制作过程中也会逐渐发现难度完全不是我们想的那么简单，加上其他课程的作业，时间也变得很紧张，最后还有学校的夏令营，就结果而言砍掉了很多内容。结果基本做好的粒子系统也是没有时间将它和项目合在一起，只能说是非常遗憾......作为计算机图形学的最后一个项目，虽然是个很简单的小游戏，但还是尽量结合了我在这个学期学习到的知识，是个很好的经验。
+
+## 个人报告 -- 李杰泓
+本次大作业是计算机图形学这门课程的一个实践，从寻找模型、场景建模，到 Camera Roaming，到光照、阴影、着色，到纹理映射，这些课程的基础内容，再到，天空盒设计、文字渲染、重力系统，物体的碰撞检测，阴影抗锯齿、Gamma矫正。即是对课程内容的巩固，也是计图项目开发实操。在这次大项目中，我主要负责以下内容：
+
+- 实现 Camera Roaming，	并添加单实例 Player 类，controller 监听鼠标、键盘事件分发给 Player；然后将Camera 绑定到 Player 上，通过 Player 更新 Camera 位置，并且与 Camera 的 yaw 同步，从而实现视角转动时改变 Player 自身朝向；支持上帝视角模式；
+- 实现射击操作，添加鼠标点击事件监听，左键点击时触发子弹发射；采用 ** 工厂模式 **，通过 BulletManager 维护子弹的生成、渲染、销毁；实现子弹与障碍物碰撞检测；
+- 使用 FreeType 库加载 .ttf 字体文件，通过 FontRenderer 管理字体加载、相关字符数据保存、渲染调用；
+- ...
+
+比较尴尬的是，我们这次项目展示的时候与上一组展示的内容有点类似，场面一度尴尬😅。然而我们的所有功能点确实都是自己摸索自己实现的，只能说围绕几个要求点展开内容选题时有点容易撞车吧。
+
+在这次期末项目开发过程中，我们还是遇到了蛮多问题的，比如一开始搭建项目环境，每个人的 vs 配置不同，然后在引用库文件的时候会有一些找不到xxx之类的报错，这个挺影响开发效率的，后面我们把项目用到的库、ddl、其他配置等都写在项目中，让vs运行时优先读取项目目录下的配置；还有比如 C++ 头文件循环引用的问题，我们几个组员在同时开发的过程中向不同的类的头文件加了通用工具类的声明头时触发了循环引用的问题，导致 vs 产生了很奇怪的报错，当时也是很坑。后面将一些公用的类抽到一个专门的 .h 头文件中引用解决了这个问题。总而言之，这次期末项目在运用计算机图形学课程的知识的同时，也很好的锻炼了我们vs开发C++项目的能力，虽然还有一些功能实现了但是最终没上（比如我做了一个火焰爆炸粒子效果，考试后去实习没时间集成到项目里）有些遗憾，但还是挺有收获的。
