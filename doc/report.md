@@ -104,7 +104,70 @@ glm::mat4 view = glm::mat4(glm::mat3(camera.getViewMatrix()))
 
 ## 遇到的问题和解决方案
 
+### 正交投影矩阵
 
+在实验中我们采用的光源的投影矩阵是正交矩阵。在实现过程中曾经出现过一些问题：
+
+- 在一定距离之外的物体没有渲染出来，只有走近之后才会被渲染。
+- 有的物体没有阴影在地板上。
+
+**解决方案**
+
+第一次只发现了第二个现象，因此会猜测是不是阴影贴图部分的代码写错了，结果对照教程修改也没有发现什么错误，直到发现了第一个现象，原因就很明显了：是视野投影矩阵的问题。
+
+在项目中我们采用的是正交矩阵来作为光源的：
+
+```c++
+//ScenceController.cpp
+GLfloat near_plane = 0.1f, far_plane = 200.0f;
+glm::mat4 lightProjection = glm::mat4(1.0f);
+lightProjection = glm::ortho(-70.0f, 70.0f, -70.0f, 70.0f, near_plane, far_plane);
+```
+
+关于没有阴影，有两种情况出现：一个是光源太高，高于far_plane导致没有在渲染空间中，一个是投影角度太大导致阴影超出了地面范围。不管是哪个其实都是投影矩阵的参数问题，因此解决方法其实就是调节参数设置。在项目中，我尽量让光源的位置与天空盒的太阳所在的方向相契合，并且正交参数也会影响到视野，因此最终效果也不能说是两全其美，只能说是尽量满足要求。
+
+另外，正交参数中（left, right, bottom, top）控制光源的正交投影的范围还可以控制地面上阴影的清晰度，因此需要调整到一个适合的值。
+
+### 天空盒贴图错位
+
+在一开始加载天空盒时出现了顶部的天空盒贴图的边缘与周围的贴图边缘错位的问题，贴图本身是完整的，但是边与边的对应关系不对：
+
+![](images/sky3.png)
+
+**解决方法**
+
+其实也没什么，结果也不是代码问题，而是图片本身的角度问题，两种方案：要么在读取图片时进行旋转，要么直接旋转图片文件，我是懒得再去写代码的人因此就只写用ACDsee软件将顶部（top）天空盒文件（.tga文件）旋转至合适的角度，这样直接读取贴图时就是正确的角度了。
+
+### 随机大小障碍物的碰撞检测
+
+对于碰撞检测，我们采用了最简单的距离计算的方法，如果子弹和物体位置之间的距离小于某个阈值的话，我们就认为它们相碰撞了，对于一个正方体来说，我们将阈值设为它的边长的根号3倍，因为这是正方体上的点到正方体的最大距离（最长对角线距离）。
+
+![](images/cube.png)
+
+但是障碍物在生成时边长时随机的，因此不能用一个确定的阈值来判断，否则在体验上会有很多误差。
+
+**解决方法**
+
+在生成障碍物时记录下每个障碍物的大小和位置，由于障碍物不会发生移动，新建和删除，因此这些信息是不会更新的，可以持续利用。由于位置与大小信息是按顺序保存的，在进行碰撞检测时可以同时检测位置和大小，根据每个碰撞五的大小进行距离检测：
+
+``` c++
+//遍历子弹
+for (auto it_bullet : Controler::getInstance()->bulletManager->getBulletLists()) {
+    //获取障碍物位置
+    std::vector<glm::vec3> newBarrierPositions = sceneController->getBarrierNewPositions();
+    std::vector<float> barrierSizes = sceneController->getBarrierSizeSet();
+    //遍历障碍物
+    for (int i = 0; i < newBarrierPositions.size(); i++) {
+        glm::vec3 barrierPosition = newBarrierPositions[i];
+        //针对每个障碍物的大小计算距离
+        if (getDistance(barrierPosition, it_bullet->getPosition()) < barrierSizes[i] * PhysicsEngine::thresholdBarrierDistance) {
+            Controler::getInstance()->bulletManager->deleteBullet(it_bullet->id);
+            return true;
+        }
+    }
+
+}
+```
 
 ## 小组成员
 
@@ -115,4 +178,6 @@ glm::mat4 view = glm::mat4(glm::mat3(camera.getViewMatrix()))
 | 沈大伟 | 16340190 | 模型寻找、场景处理，复杂光照处理           | [chain](https://github.com/freesdw)   |
 | 李杰泓 | 16340118 |  实现利用鼠标、键盘控制人物移动；实现子弹射击; 显示游戏信息;  | [carolsum](https://github.com/carolsum)   |
 
+## 个人报告 ——邵梓硕
 
+在本次项目中我负责的部分有很多是基础功能，虽然是上课的时候就讲过的内容，实际在项目中会根据需求不同，应用的场景不同，实现方式也不同，也会出现不知道怎么实现，出现各种bug的情况，因此即使是基础功能也不是一开始想的一下就能过的简单工作。从项目的初始阶段计划到最后的成品，可以说除了游戏类型之外没什么是一样的，即使一开始计划的内容很好，在制作过程中也会逐渐发现难度完全不是我们想的那么简单，加上其他课程的作业，时间也变得很紧张，最后还有学校的夏令营，就结果而言砍掉了很多内容。结果基本做好的粒子系统也是没有时间将它和项目合在一起，只能说是非常遗憾......作为计算机图形学的最后一个项目，虽然是个很简单的小游戏，但还是尽量结合了我在这个学期学习到的知识，是个很好的经验。
