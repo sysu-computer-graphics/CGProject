@@ -1,0 +1,125 @@
+# Blender MTL File: 'sf2arms.blend'
+# Material Count: 9
+
+newmtl ak12
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.744230 0.553506 0.663775
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd weapon_ak12_col.jpg
+map_Bump normal_bent_normals.jpg
+map_Ke weapon_ak12_col.jpg
+map_Ks weapon_ak12_col.jpg
+map_Ns weapon_ak12_col.jpg
+
+newmtl ak12.001
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.532929 0.589638 0.361992
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd weapon_ak12_col.jpg
+map_Bump normal_bent_normals.jpg
+map_Ke weapon_ak12_col.jpg
+map_Ks weapon_ak12_col.jpg
+map_Ns weapon_ak12_col.jpg
+
+newmtl ak12.002
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.684527 0.426698 0.535163
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd weapon_ak12_col.jpg
+map_Bump normal_bent_normals.jpg
+map_Ke weapon_ak12_col.jpg
+map_Ks weapon_ak12_col.jpg
+map_Ns weapon_ak12_col.jpg
+
+newmtl car4_scope.tga
+Ns 90.196078
+Ka 1.000000 1.000000 1.000000
+Kd 0.466214 0.420902 0.367865
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd car4_scope.tga
+map_Bump car4_scope_normal.tga
+map_Ks car4_scope.tga
+
+newmtl lense2.tga
+Ns 90.196078
+Ka 1.000000 1.000000 1.000000
+Kd 0.012063 0.012063 0.012063
+Ks 0.266762 0.266762 0.266762
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.750000
+illum 2
+map_Kd lense.tga
+map_Bump lens_ref.tga
+
+newmtl v_hands_gloves_sf2.tga
+Ns 92.156863
+Ka 1.000000 1.000000 1.000000
+Kd 0.369375 0.264550 0.590023
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd v_hands_gloves_sf2 d.tga
+map_Bump v_hands_gloves_sf2 n.tga
+map_Ks v_hands_gloves_sf2 d.tga
+
+newmtl v_hands_sleeves_sf2.tga
+Ns 92.156863
+Ka 1.000000 1.000000 1.000000
+Kd 0.441517 0.281742 0.563982
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd v_hands_sleeves_sf2 s.tga
+map_Ks v_hands_sleeves_sf2 s.tga
+
+newmtl v_hands_watch_sf2_d.tga.001
+Ns 86.274510
+Ka 1.000000 1.000000 1.000000
+Kd 0.302312 0.165206 0.328640
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd v_hands_watch_sf2 d.tga
+map_Bump v_hands_watch_sf2 n.tga
+map_Ks v_hands_watch_sf2 d.tga
+
+newmtl weapon_ak12_col.tga
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.782354 0.610947 0.662897
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd weapon_ak12_col.jpg
+map_Bump normal_bent_normals.jpg
+map_Ke weapon_ak12_col.jpg
+map_Ks weapon_ak12_col.jpg
+map_Ns weapon_ak12_col.jpg
