@@ -74,6 +74,8 @@
 
   * `model` 存放模型
   * `skybox` 存放天空盒
+  * `font` 字体
+  * `picture` 贴图
 
 文件
 
